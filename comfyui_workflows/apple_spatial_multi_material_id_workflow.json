@@ -1,0 +1,427 @@
+{
+  "last_node_id": 35,
+  "last_link_id": 50,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [40, 60],
+      "size": [315, 98],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [2], "slot_index": 1},
+        {"name": "VAE", "type": "VAE", "links": [8], "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "CheckpointLoaderSimple"},
+      "widgets_values": ["sd_xl_base_1.0.safetensors"]
+    },
+    {
+      "id": 2,
+      "type": "LoraLoader",
+      "pos": [400, 60],
+      "size": [340, 126],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 1},
+        {"name": "clip", "type": "CLIP", "link": 2}
+      ],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [4], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [5, 6, 7], "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "LoraLoader (Apple Aesthetic)"},
+      "widgets_values": ["apple_minimal_craft_sdxl_v1.safetensors", 0.95, 0.95]
+    },
+    {
+      "id": 3,
+      "type": "ControlNetLoader",
+      "pos": [40, 220],
+      "size": [340, 58],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {"name": "CONTROL_NET", "type": "CONTROL_NET", "links": [9], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ControlNetLoader (Depth SDXL)"},
+      "widgets_values": ["controlnet-depth-sdxl-1.0.safetensors"]
+    },
+    {
+      "id": 5,
+      "type": "ControlNetLoader",
+      "pos": [40, 320],
+      "size": [340, 58],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {"name": "CONTROL_NET", "type": "CONTROL_NET", "links": [10], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ControlNetLoader (Normal SDXL)"},
+      "widgets_values": ["controlnet-normal-sdxl-1.0.safetensors"]
+    },
+    {
+      "id": 4,
+      "type": "LoadNativeEXR",
+      "pos": [400, 230],
+      "size": [340, 160],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [12], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "Load 3D Depth EXR (Native)"},
+      "widgets_values": [
+        "/content/drive/MyDrive/Generative-Imagery-Systems/apple_lora_project/3d_guides/0000",
+        "Depth.exr",
+        "Depth"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "LoadNativeEXR",
+      "pos": [400, 430],
+      "size": [340, 160],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [13], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "Load 3D Normal EXR (Native)"},
+      "widgets_values": [
+        "/content/drive/MyDrive/Generative-Imagery-Systems/apple_lora_project/3d_guides/0000",
+        "Normal.exr",
+        "Normal"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "LoadNativeEXR",
+      "pos": [400, 630],
+      "size": [340, 160],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [14], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "Load 3D Color ID EXR (Native)"},
+      "widgets_values": [
+        "/content/drive/MyDrive/Generative-Imagery-Systems/apple_lora_project/3d_guides/0000",
+        "Id.exr",
+        "Color_ID"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "ImageToMask",
+      "pos": [800, 630],
+      "size": [315, 80],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {"name": "image", "type": "IMAGE", "link": 14}
+      ],
+      "outputs": [
+        {"name": "MASK", "type": "MASK", "links": [25], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ImageToMask (ID Red: 상단 스와치)"},
+      "widgets_values": ["red"]
+    },
+    {
+      "id": 21,
+      "type": "ImageToMask",
+      "pos": [1160, 630],
+      "size": [315, 80],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "image", "type": "IMAGE", "link": 14}
+      ],
+      "outputs": [
+        {"name": "MASK", "type": "MASK", "links": [26], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ImageToMask (ID Green: 하단 스와치)"},
+      "widgets_values": ["green"]
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [800, 60],
+      "size": [440, 180],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 5}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [15], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode (ID 1: 상단 - 파스텔 핑크 매트 클레이 밤)"},
+      "widgets_values": ["a commercial macro hero photo in apl_minimal_craft style of thick dense pastel pink terracotta clay mask paste swatch, smooth sculptural matte butter balm texture, crisp sharp organic ridges, micro-matte tactile surface, rich dense paste body, resting on a clean solid achromatic matte cool grey studio tabletop background, subtle realistic grounding contact shadow beneath the swatch, photorealistic 8k, ultra-sharp focus"]
+    },
+    {
+      "id": 22,
+      "type": "CLIPTextEncode",
+      "pos": [800, 280],
+      "size": [440, 180],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 7}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [28], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode (ID 2: 하단 - 골든 애프리콧 스크럽 페이스트)"},
+      "widgets_values": ["a commercial macro hero photo in apl_minimal_craft style of textured golden apricot and warm honey exfoliating scrub paste swatch with micro botanical granules, comb ridges, rich tactile paste, dense granular texture, resting on a clean solid achromatic matte cool grey studio tabletop background, subtle realistic grounding contact shadow beneath the swatch, photorealistic 8k, ultra-sharp focus"]
+    },
+    {
+      "id": 23,
+      "type": "ConditioningSetMask",
+      "pos": [1280, 60],
+      "size": [315, 110],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {"name": "conditioning", "type": "CONDITIONING", "link": 15},
+        {"name": "mask", "type": "MASK", "link": 25}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [29], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "Assign Pink Clay to Top ID"},
+      "widgets_values": [1.0, "default"]
+    },
+    {
+      "id": 24,
+      "type": "ConditioningSetMask",
+      "pos": [1280, 210],
+      "size": [315, 110],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {"name": "conditioning", "type": "CONDITIONING", "link": 28},
+        {"name": "mask", "type": "MASK", "link": 26}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [30], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "Assign Golden Scrub to Bottom ID"},
+      "widgets_values": [1.0, "default"]
+    },
+    {
+      "id": 25,
+      "type": "ConditioningCombine",
+      "pos": [1640, 100],
+      "size": [315, 80],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {"name": "conditioning_1", "type": "CONDITIONING", "link": 29},
+        {"name": "conditioning_2", "type": "CONDITIONING", "link": 30}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [31], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ConditioningCombine (상/하단 독립 재질 합성)"}
+    },
+    {
+      "id": 8,
+      "type": "CLIPTextEncode",
+      "pos": [800, 480],
+      "size": [440, 140],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 6}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [16], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode (Negative: 붕 뜸/물광 차단)"},
+      "widgets_values": ["floating, levitating, detached from floor, pink background, pink floor, warm background tint, monochromatic color scheme, runny, watery, glossy, wet shine, specular glare, blurry, foggy, flat 3d, deformed, low quality"]
+    },
+    {
+      "id": 9,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [2000, 60],
+      "size": [315, 170],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {"name": "positive", "type": "CONDITIONING", "link": 31},
+        {"name": "negative", "type": "CONDITIONING", "link": 16},
+        {"name": "control_net", "type": "CONTROL_NET", "link": 9},
+        {"name": "image", "type": "IMAGE", "link": 12}
+      ],
+      "outputs": [
+        {"name": "positive", "type": "CONDITIONING", "links": [17], "slot_index": 0},
+        {"name": "negative", "type": "CONDITIONING", "links": [32], "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "Apply ControlNet (3D Depth - 0.90)"},
+      "widgets_values": [0.90, 0.0, 1.0]
+    },
+    {
+      "id": 10,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [2000, 270],
+      "size": [315, 170],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {"name": "positive", "type": "CONDITIONING", "link": 17},
+        {"name": "negative", "type": "CONDITIONING", "link": 32},
+        {"name": "control_net", "type": "CONTROL_NET", "link": 10},
+        {"name": "image", "type": "IMAGE", "link": 13}
+      ],
+      "outputs": [
+        {"name": "positive", "type": "CONDITIONING", "links": [18], "slot_index": 0},
+        {"name": "negative", "type": "CONDITIONING", "links": [33], "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "Apply ControlNet (3D Normal - 0.90)"},
+      "widgets_values": [0.90, 0.0, 1.0]
+    },
+    {
+      "id": 11,
+      "type": "EmptyLatentImage",
+      "pos": [2000, 480],
+      "size": [315, 106],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [20], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "EmptyLatentImage (16:9 HD)"},
+      "widgets_values": [1024, 576, 1]
+    },
+    {
+      "id": 12,
+      "type": "KSampler",
+      "pos": [2360, 60],
+      "size": [315, 474],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 4},
+        {"name": "positive", "type": "CONDITIONING", "link": 18},
+        {"name": "negative", "type": "CONDITIONING", "link": 33},
+        {"name": "latent_image", "type": "LATENT", "link": 20}
+      ],
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [21], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "KSampler (Dual Material Grounded Render)"},
+      "widgets_values": [
+        42,
+        "randomize",
+        30,
+        7.5,
+        "dpmpp_2m",
+        "karras",
+        1.0
+      ]
+    },
+    {
+      "id": 13,
+      "type": "VAEDecode",
+      "pos": [2720, 60],
+      "size": [210, 46],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 21},
+        {"name": "vae", "type": "VAE", "link": 8}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [22], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "VAEDecode"}
+    },
+    {
+      "id": 15,
+      "type": "ImageScale",
+      "pos": [2970, 60],
+      "size": [315, 130],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {"name": "image", "type": "IMAGE", "link": 22}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [23], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ImageScale (Master 1080p Studio Export)"},
+      "widgets_values": ["lanczos", 1920, 1080, "disabled"]
+    },
+    {
+      "id": 19,
+      "type": "SaveImage",
+      "pos": [3330, 60],
+      "size": [340, 300],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 23}
+      ],
+      "properties": {"Node name for S&R": "SaveImage"},
+      "widgets_values": ["Apple_Spatial_DualMaterial_Grounded"]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "MODEL"],
+    [2, 1, 1, 2, 1, "CLIP"],
+    [4, 2, 0, 12, 0, "MODEL"],
+    [5, 2, 1, 7, 0, "CLIP"],
+    [6, 2, 1, 8, 0, "CLIP"],
+    [7, 2, 1, 22, 0, "CLIP"],
+    [8, 1, 2, 13, 1, "VAE"],
+    [9, 3, 0, 9, 2, "CONTROL_NET"],
+    [10, 5, 0, 10, 2, "CONTROL_NET"],
+    [12, 4, 0, 9, 3, "IMAGE"],
+    [13, 6, 0, 10, 3, "IMAGE"],
+    [14, 16, 0, 20, 0, "IMAGE"],
+    [15, 7, 0, 23, 0, "CONDITIONING"],
+    [16, 8, 0, 9, 1, "CONDITIONING"],
+    [17, 9, 0, 10, 0, "CONDITIONING"],
+    [18, 10, 0, 12, 1, "CONDITIONING"],
+    [20, 11, 0, 12, 3, "LATENT"],
+    [21, 12, 0, 13, 0, "LATENT"],
+    [22, 13, 0, 15, 0, "IMAGE"],
+    [23, 15, 0, 19, 0, "IMAGE"],
+    [25, 20, 0, 23, 1, "MASK"],
+    [26, 21, 0, 24, 1, "MASK"],
+    [28, 22, 0, 24, 0, "CONDITIONING"],
+    [29, 23, 0, 25, 0, "CONDITIONING"],
+    [30, 24, 0, 25, 1, "CONDITIONING"],
+    [31, 25, 0, 9, 0, "CONDITIONING"],
+    [32, 9, 1, 10, 1, "CONDITIONING"],
+    [33, 10, 1, 12, 2, "CONDITIONING"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
