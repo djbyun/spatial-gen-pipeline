@@ -1,0 +1,943 @@
+{
+    "last_node_id": 16,
+    "last_link_id": 23,
+    "nodes": [
+        {
+            "id": 1,
+            "type": "CheckpointLoaderSimple",
+            "pos": [
+                40,
+                60
+            ],
+            "size": [
+                315,
+                98
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "MODEL",
+                    "type": "MODEL",
+                    "links": [
+                        1
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [
+                        2
+                    ],
+                    "slot_index": 1
+                },
+                {
+                    "name": "VAE",
+                    "type": "VAE",
+                    "links": [
+                        3
+                    ],
+                    "slot_index": 2
+                }
+            ],
+            "title": "📦 [1단계] SDXL 기본 모델 로더",
+            "properties": {
+                "Node name for S&R": "CheckpointLoaderSimple"
+            },
+            "widgets_values": [
+                "sd_xl_base_1.0.safetensors"
+            ]
+        },
+        {
+            "id": 2,
+            "type": "LoraLoader",
+            "pos": [
+                400,
+                60
+            ],
+            "size": [
+                340,
+                126
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "model",
+                    "type": "MODEL",
+                    "link": 1
+                },
+                {
+                    "name": "clip",
+                    "type": "CLIP",
+                    "link": 2
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "MODEL",
+                    "type": "MODEL",
+                    "links": [
+                        4
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [
+                        5,
+                        6
+                    ],
+                    "slot_index": 1
+                }
+            ],
+            "title": "🍏 [2단계] 애플 LoRA 로더 (0.95)",
+            "properties": {
+                "Node name for S&R": "LoraLoader"
+            },
+            "widgets_values": [
+                "apple_minimal_craft_sdxl_v1.safetensors",
+                0.95,
+                0.95
+            ]
+        },
+        {
+            "id": 3,
+            "type": "ControlNetLoader",
+            "pos": [
+                40,
+                220
+            ],
+            "size": [
+                340,
+                58
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "CONTROL_NET",
+                    "type": "CONTROL_NET",
+                    "links": [
+                        7
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "📐 [3단계] 3D Depth 컨트롤넷 (원근 깊이)",
+            "properties": {
+                "Node name for S&R": "ControlNetLoader"
+            },
+            "widgets_values": [
+                "controlnet-depth-sdxl-1.0.safetensors"
+            ]
+        },
+        {
+            "id": 4,
+            "type": "LoadImage",
+            "pos": [
+                400,
+                220
+            ],
+            "size": [
+                340,
+                220
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        8
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "MASK",
+                    "type": "MASK",
+                    "links": null
+                }
+            ],
+            "title": "📂 [4단계] 3D Depth 이미지 로드 (0005/Depth.png)",
+            "properties": {
+                "Node name for S&R": "LoadImage"
+            },
+            "widgets_values": [
+                "Depth.png",
+                "image"
+            ]
+        },
+        {
+            "id": 5,
+            "type": "ControlNetLoader",
+            "pos": [
+                40,
+                480
+            ],
+            "size": [
+                340,
+                58
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "CONTROL_NET",
+                    "type": "CONTROL_NET",
+                    "links": [
+                        9
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "🧭 [5단계] 3D Normal 컨트롤넷 (표면 굴곡)",
+            "properties": {
+                "Node name for S&R": "ControlNetLoader"
+            },
+            "widgets_values": [
+                "controlnet-normal-sdxl-1.0.safetensors"
+            ]
+        },
+        {
+            "id": 6,
+            "type": "LoadImage",
+            "pos": [
+                400,
+                480
+            ],
+            "size": [
+                340,
+                220
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        10
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "MASK",
+                    "type": "MASK",
+                    "links": null
+                }
+            ],
+            "title": "📂 [6단계] 3D Normal 이미지 로드 (0005/Normal.png)",
+            "properties": {
+                "Node name for S&R": "LoadImage"
+            },
+            "widgets_values": [
+                "Normal.png",
+                "image"
+            ]
+        },
+        {
+            "id": 9,
+            "type": "ControlNetLoader",
+            "pos": [
+                40,
+                740
+            ],
+            "size": [
+                340,
+                58
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "CONTROL_NET",
+                    "type": "CONTROL_NET",
+                    "links": [
+                        13
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "🎨 [7단계] Color ID 컨트롤넷 (Canny 경계/구역)",
+            "properties": {
+                "Node name for S&R": "ControlNetLoader"
+            },
+            "widgets_values": [
+                "controlnet-canny-sdxl-1.0.safetensors"
+            ]
+        },
+        {
+            "id": 10,
+            "type": "LoadImage",
+            "pos": [
+                400,
+                740
+            ],
+            "size": [
+                340,
+                220
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        14
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "MASK",
+                    "type": "MASK",
+                    "links": null
+                }
+            ],
+            "title": "📂 [8단계] Color ID 이미지 로드 (0005/Id.png)",
+            "properties": {
+                "Node name for S&R": "LoadImage"
+            },
+            "widgets_values": [
+                "Id.png",
+                "image"
+            ]
+        },
+        {
+            "id": 7,
+            "type": "CLIPTextEncode",
+            "pos": [
+                800,
+                60
+            ],
+            "size": [
+                440,
+                190
+            ],
+            "flags": {},
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "clip",
+                    "type": "CLIP",
+                    "link": 5
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        11
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "✨ [9단계] 긍정 프롬프트 (Yellow Studio Pastel LookDev)",
+            "properties": {
+                "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+                "a hero commercial product photo in apl_minimal_craft style, straight 90 degree top-down flat lay macro shot of distinct luxury cosmetic swatches, pure stark opaque white whipped cream swatch with thick sculptural spatula knife ridges and sharp tactile peaks, rich dark brown muddy terracotta clay paste with rough granular scrub texture, delicate pastel rose pink cream gel with tiny subtle glowing golden micro-sparkles and fine cosmetic glitter shimmer, herbal matcha olive green clay mud, rich golden amber honey balm with glowing micro-shimmer, resting on a solid soft pastel yellow painted matte studio tabletop surface, crisp direct studio spotlight, clean dark contact cast shadows, photorealistic 8k uhd, hyperrealistic, ultra-sharp focus"
+            ]
+        },
+        {
+            "id": 8,
+            "type": "CLIPTextEncode",
+            "pos": [
+                800,
+                290
+            ],
+            "size": [
+                440,
+                140
+            ],
+            "flags": {},
+            "order": 9,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "clip",
+                    "type": "CLIP",
+                    "link": 6
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        12
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "🚫 [10단계] 부정 프롬프트 (품질 저하 차단)",
+            "properties": {
+                "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+                "metal, metallic, chrome, shiny steel, gold, plastic, hard surface, glass, mirror, shiny reflection, gadget, tool, device, razor, shaver, machine, hardware, electronics, leather, case, pouch, container, packaging, bottle, lid, flat, 2D, translucent, gummy, melted wax, jelly, leaf, plant, food, butter, cooking oil, flat lighting, blurry shadows, text, watermark, typography, label, low quality, blurry"
+            ]
+        },
+        {
+            "id": 11,
+            "type": "ControlNetApplyAdvanced",
+            "pos": [
+                1280,
+                60
+            ],
+            "size": [
+                315,
+                170
+            ],
+            "flags": {},
+            "order": 10,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "link": 11
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "link": 12
+                },
+                {
+                    "name": "control_net",
+                    "type": "CONTROL_NET",
+                    "link": 7
+                },
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 8
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "links": [
+                        15
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "links": [
+                        16
+                    ],
+                    "slot_index": 1
+                }
+            ],
+            "title": "📐 [11단계] Depth 가이드 결합 (강도 0.55)",
+            "properties": {
+                "Node name for S&R": "ControlNetApplyAdvanced"
+            },
+            "widgets_values": [
+                0.55,
+                0.0,
+                0.80
+            ]
+        },
+        {
+            "id": 12,
+            "type": "ControlNetApplyAdvanced",
+            "pos": [
+                1280,
+                270
+            ],
+            "size": [
+                315,
+                170
+            ],
+            "flags": {},
+            "order": 11,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "link": 15
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "link": 16
+                },
+                {
+                    "name": "control_net",
+                    "type": "CONTROL_NET",
+                    "link": 9
+                },
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 10
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "links": [
+                        17
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "links": [
+                        18
+                    ],
+                    "slot_index": 1
+                }
+            ],
+            "title": "🧭 [12단계] Normal 가이드 결합 (강도 0.50)",
+            "properties": {
+                "Node name for S&R": "ControlNetApplyAdvanced"
+            },
+            "widgets_values": [
+                0.50,
+                0.0,
+                0.70
+            ]
+        },
+        {
+            "id": 13,
+            "type": "ControlNetApplyAdvanced",
+            "pos": [
+                1280,
+                480
+            ],
+            "size": [
+                315,
+                170
+            ],
+            "flags": {},
+            "order": 12,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "link": 17
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "link": 18
+                },
+                {
+                    "name": "control_net",
+                    "type": "CONTROL_NET",
+                    "link": 13
+                },
+                {
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 14
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "links": [
+                        19
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "links": [
+                        20
+                    ],
+                    "slot_index": 1
+                }
+            ],
+            "title": "🎨 [13단계] Color ID 가이드 결합 (강도 0.40)",
+            "properties": {
+                "Node name for S&R": "ControlNetApplyAdvanced"
+            },
+            "widgets_values": [
+                0.40,
+                0.0,
+                0.60
+            ]
+        },
+        {
+            "id": 16,
+            "type": "EmptyLatentImage",
+            "pos": [
+                1280,
+                690
+            ],
+            "size": [
+                315,
+                106
+            ],
+            "flags": {},
+            "order": 13,
+            "mode": 0,
+            "outputs": [
+                {
+                    "name": "LATENT",
+                    "type": "LATENT",
+                    "links": [
+                        21
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "✨ [14단계] 캔버스 생성 (16:9 HD 1344x768)",
+            "properties": {
+                "Node name for S&R": "EmptyLatentImage"
+            },
+            "widgets_values": [
+                1344,
+                768,
+                1
+            ]
+        },
+        {
+            "id": 14,
+            "type": "KSampler",
+            "pos": [
+                1640,
+                60
+            ],
+            "size": [
+                315,
+                474
+            ],
+            "flags": {},
+            "order": 14,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "model",
+                    "type": "MODEL",
+                    "link": 4
+                },
+                {
+                    "name": "positive",
+                    "type": "CONDITIONING",
+                    "link": 19
+                },
+                {
+                    "name": "negative",
+                    "type": "CONDITIONING",
+                    "link": 20
+                },
+                {
+                    "name": "latent_image",
+                    "type": "LATENT",
+                    "link": 21
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "LATENT",
+                    "type": "LATENT",
+                    "links": [
+                        22
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "⚡ [15단계] KSampler (30스텝 렌더링)",
+            "properties": {
+                "Node name for S&R": "KSampler"
+            },
+            "widgets_values": [
+                42,
+                "randomize",
+                30,
+                6.5,
+                "dpmpp_2m",
+                "karras",
+                1.0
+            ]
+        },
+        {
+            "id": 15,
+            "type": "VAEDecode",
+            "pos": [
+                2000,
+                60
+            ],
+            "size": [
+                210,
+                46
+            ],
+            "flags": {},
+            "order": 15,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "samples",
+                    "type": "LATENT",
+                    "link": 22
+                },
+                {
+                    "name": "vae",
+                    "type": "VAE",
+                    "link": 3
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        23
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "title": "🖼️ [16단계] VAE 디코드",
+            "properties": {
+                "Node name for S&R": "VAEDecode"
+            }
+        },
+        {
+            "id": 88,
+            "type": "SaveImage",
+            "pos": [
+                2260,
+                60
+            ],
+            "size": [
+                340,
+                300
+            ],
+            "flags": {},
+            "order": 16,
+            "mode": 0,
+            "inputs": [
+                {
+                    "name": "images",
+                    "type": "IMAGE",
+                    "link": 23
+                }
+            ],
+            "title": "💾 [17단계] 완성작 저장 (Pastel Yellow LookDev)",
+            "properties": {
+                "Node name for S&R": "SaveImage"
+            },
+            "widgets_values": [
+                "Apple_Spatial_Yellow_Studio"
+            ]
+        }
+    ],
+    "links": [
+        [
+            1,
+            1,
+            0,
+            2,
+            0,
+            "MODEL"
+        ],
+        [
+            2,
+            1,
+            1,
+            2,
+            1,
+            "CLIP"
+        ],
+        [
+            3,
+            1,
+            2,
+            15,
+            1,
+            "VAE"
+        ],
+        [
+            4,
+            2,
+            0,
+            14,
+            0,
+            "MODEL"
+        ],
+        [
+            5,
+            2,
+            1,
+            7,
+            0,
+            "CLIP"
+        ],
+        [
+            6,
+            2,
+            1,
+            8,
+            0,
+            "CLIP"
+        ],
+        [
+            7,
+            3,
+            0,
+            11,
+            2,
+            "CONTROL_NET"
+        ],
+        [
+            8,
+            4,
+            0,
+            11,
+            3,
+            "IMAGE"
+        ],
+        [
+            9,
+            5,
+            0,
+            12,
+            2,
+            "CONTROL_NET"
+        ],
+        [
+            10,
+            6,
+            0,
+            12,
+            3,
+            "IMAGE"
+        ],
+        [
+            11,
+            7,
+            0,
+            11,
+            0,
+            "CONDITIONING"
+        ],
+        [
+            12,
+            8,
+            0,
+            11,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            13,
+            9,
+            0,
+            13,
+            2,
+            "CONTROL_NET"
+        ],
+        [
+            14,
+            10,
+            0,
+            13,
+            3,
+            "IMAGE"
+        ],
+        [
+            15,
+            11,
+            0,
+            12,
+            0,
+            "CONDITIONING"
+        ],
+        [
+            16,
+            11,
+            1,
+            12,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            17,
+            12,
+            0,
+            13,
+            0,
+            "CONDITIONING"
+        ],
+        [
+            18,
+            12,
+            1,
+            13,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            19,
+            13,
+            0,
+            14,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            20,
+            13,
+            1,
+            14,
+            2,
+            "CONDITIONING"
+        ],
+        [
+            21,
+            16,
+            0,
+            14,
+            3,
+            "LATENT"
+        ],
+        [
+            22,
+            14,
+            0,
+            15,
+            0,
+            "LATENT"
+        ],
+        [
+            23,
+            15,
+            0,
+            88,
+            0,
+            "IMAGE"
+        ]
+    ],
+    "groups": [],
+    "config": {},
+    "extra": {},
+    "version": 0.4
+}

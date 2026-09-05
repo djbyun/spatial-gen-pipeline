@@ -46,7 +46,17 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 
 ---
 
-## 3. Key Design Decisions & Pipeline Rules
+## 3. Local Environment & Model Directory Configuration
+- **ComfyUI Desktop (Windows Local) Models Path**:
+  - `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models`
+  - Checkpoints: `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models\checkpoints`
+  - ControlNet: `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models\controlnet`
+  - LoRAs: `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models\loras`
+  - Inputs (Guides): `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\input`
+
+---
+
+## 4. Key Design Decisions & Pipeline Rules
 1. **Trigger Tokens & Prompting**:
    - Primary style token: `apple minimal craft style`, `clean matte studio lookdev`, `ambient occlusion lighting`.
 2. **Spatial Guide Alignment**:
@@ -58,8 +68,22 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 
 ---
 
-## 4. Continuity Instructions for Antigravity Agent
+## 5. Continuity Instructions for Antigravity Agent
 When resuming work on PC:
 1. Always reference `AGENTS.md` for pipeline structure and naming conventions.
-2. Check `docs/HOUDINI_PASS_EXPORT_GUIDE.md` when adjusting 3D passes or node interfaces.
-3. ComfyUI workflows in `comfyui_workflows/` are the single source of truth for generation pipelines.
+2. Use the local ComfyUI Desktop models path recorded in Section 3 when managing or syncing weights.
+3. Check `docs/HOUDINI_PASS_EXPORT_GUIDE.md` when adjusting 3D passes or node interfaces.
+4. ComfyUI workflows in `comfyui_workflows/` are the single source of truth for generation pipelines.
+
+---
+
+## 6. Regional Conditioning & ComfyUI Alpha Mask Rules
+1. **ComfyUI LoadImage MASK Channel Behavior**:
+   - ComfyUI reads masks as `1.0 - (Alpha / 255.0)`.
+   - Any mask PNG fed into `LoadImage` must have the active region set to **Alpha = 0 (Transparent Hole)** and inactive background set to **Alpha = 255 (Opaque)**.
+   - Use `scripts/bake_comfyui_masks.py` to auto-bake all guide passes.
+2. **ConditioningCombine Binary Tree Topology**:
+   - Never chain `ConditioningCombine` in a single serial chain (causes $2^N$ tensor duplication and CFG blowout).
+   - Always combine conditionings via balanced binary tree (`[1+2]`, `[3+4]`, `[5+6]`) to keep conditioning tensor count at exact $1:1$ ratio.
+3. **Production Gold Standard Workflow**:
+   - `apple_spatial_oneshot_regional_workflow.json`: Multi-region material isolation with 3D Depth + Normal control.
