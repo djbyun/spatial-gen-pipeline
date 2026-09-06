@@ -245,12 +245,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🌐 [Prompt BG] 미니멀 스튜디오 배경",
+      "title": "🌐 [Prompt BG] 럭셔리 미니멀 스튜디오 바닥",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, clean seamless neutral matte light gray studio backdrop, soft diffuse ambient occlusion contact shadows, pristine commercial product showcase"
+        "a luxury beauty commercial product photo, solid clean warm neutral off-white matte studio tabletop surface, soft direct studio spotlight with crisp natural contact cast shadows, 8k uhd photorealistic"
       ]
     },
     {
@@ -367,12 +367,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 01 - 중앙/본체] 아노다이징 알루미늄",
+      "title": "🎨 [Prompt 01 - 중앙 돔] 테라코타 클레이 밤",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, solid space gray bead-blasted anodized aluminum metal chassis, fine sandblasted micro grain, crisp chamfered edge highlights, clean matte surface"
+        "rich dark warm terracotta chocolate brown cosmetic clay scrub paste, smooth dense muddy balm swatch with fine micro texture, soft satin matte finish, clean sculptural dome shape"
       ]
     },
     {
@@ -489,12 +489,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 02 - 파츠 2] 내추럴 실버 티타늄",
+      "title": "🎨 [Prompt 02 - 파츠 2] 순백 휘핑크림",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, natural silver matte brushed titanium enclosure, precision cnc milled edge, subtle metallic sheen, pristine clean geometry"
+        "pure opaque bright snow white dense whipped cosmetic facial cream swatch, rich buttery texture, soft sculpted spatula peaks, luxurious satin glow, clean edges"
       ]
     },
     {
@@ -611,12 +611,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 03 - 파츠 3] 블랙 사파이어 글래스",
+      "title": "🎨 [Prompt 03 - 파츠 3] 로즈 핑크 글로스 젤",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, deep black optical sapphire crystal glass, antireflective purple-tint coating, clean sharp specular reflections, glossy polished finish"
+        "translucent pastel rose pink hydrating cosmetic jelly serum, glossy wet look, dewy luminous sheen with subtle light reflections, clean sculpted jelly dome"
       ]
     },
     {
@@ -733,12 +733,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 04 - 파츠 4] 매트 널링 다이얼/버튼",
+      "title": "🎨 [Prompt 04 - 파츠 4] 유기농 말차 세이지 그린",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, tactile knurled matte aluminum digital crown dial, precision micro grooves, dark graphite finish, clean solid metal"
+        "natural earthy matcha sage olive green soothing botanical clay paste, rich herbal cream texture, soft organic matte finish, clean rounded shape"
       ]
     },
     {
@@ -855,12 +855,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 05 - 파츠 5] 세라믹 글래스 패널",
+      "title": "🎨 [Prompt 05 - 파츠 5] 골든 앰버 허니 밤",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, pristine dark ceramic shield glass panel, deep gloss surface, minimal reflection, solid precision manufactured"
+        "rich golden amber honey translucent facial balm, glowing warm radiant luster, dewy glistening melted balm texture, glossy reflections"
       ]
     },
     {
@@ -977,12 +977,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 06 - 파츠 6] 플루오로엘라스토머 밴드",
+      "title": "🎨 [Prompt 06 - 파츠 6] 벨벳 피치 파운데이션",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, smooth matte fluoroelastomer soft-touch surface, clean molded edges, midnight navy blue color, velvety premium finish"
+        "smooth warm nude peach beige liquid foundation swatch, soft velvety matte powdery finish, flawless cosmetic makeup texture, clean contoured dome"
       ]
     },
     {
@@ -1104,7 +1104,7 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "blurry, powder, mud, messy, clay, cream, food, smeared, distorted, noisy, artifacts, watermark, text, signature, bad geometry, low resolution"
+        "metal, metallic, steel, chrome, gadget, electronics, plastic container, bottle, lid, razor, text, watermark, signature, blurry, low resolution, deformed, noisy artifacts"
       ]
     },
     {
@@ -1407,14 +1407,14 @@
           "slot_index": 1
         }
       ],
-      "title": "📐 3D Depth 형상 락 (강도 0.85)",
+      "title": "📐 3D Depth 볼륨 형상 락 (강도 0.80)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
-        0.85,
+        0.8,
         0.0,
-        0.9
+        0.85
       ]
     },
     {
@@ -1471,14 +1471,14 @@
           "slot_index": 1
         }
       ],
-      "title": "🧭 3D Normal 굴곡 락 (강도 0.80)",
+      "title": "🧭 3D Normal 표면 굴곡 락 (강도 0.75)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
-        0.8,
+        0.75,
         0.0,
-        0.85
+        0.8
       ]
     },
     {
@@ -1830,12 +1830,12 @@
           "slot_index": 0
         }
       ],
-      "title": "✨ [Stage 2] FLUX 룩데브 프롬프트 (CMF Refine)",
+      "title": "✨ [Stage 2] FLUX 화장품 CMF 리파인 프롬프트",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "apple minimal craft style, clean matte studio lookdev, premium bead-blasted anodized aluminum finish, subtle chamfer highlights, high precision glass reflections, soft studio ambient occlusion lighting, clean minimal studio background, 8k commercial keynote lookdev"
+        "commercial beauty product lookdev, luxury skincare cosmetic swatches of rich creams, translucent hydrating gels, clay paste and golden balm, ultra-realistic texture details, soft studio lighting with ambient occlusion, pristine commercial photography, 8k resolution"
       ]
     },
     {
@@ -1913,7 +1913,7 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "blurry, noisy, low quality, distorted, bad reflections, overexposed, plastic looking"
+        "metal, metallic, plastic, gadget, electronics, blurry, noisy, low quality, distorted, bad reflections, overexposed"
       ]
     },
     {
