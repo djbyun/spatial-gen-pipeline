@@ -245,12 +245,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🌐 [Prompt BG] 럭셔리 미니멀 스튜디오 바닥",
+      "title": "🌐 [Prompt BG] 탑뷰 코스메틱 스와치 스튜디오",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "a luxury beauty commercial product photo, solid clean warm neutral off-white matte studio tabletop surface, soft direct studio spotlight with crisp natural contact cast shadows, 8k uhd photorealistic"
+        "top-down flat lay view, directly from above, luxury beauty cosmetic swatch palette photography, cosmetic texture swatches arranged on a clean warm neutral off-white matte studio tabletop surface, soft overhead studio spotlight, crisp contact cast shadows, professional commercial beauty photography, 8k uhd"
       ]
     },
     {
@@ -367,12 +367,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 01 - 중앙 돔] 테라코타 클레이 밤",
+      "title": "🎨 [Prompt 01] 테라코타 클레이 밤 코스메틱 스와치",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "rich dark warm terracotta chocolate brown cosmetic clay scrub paste, smooth dense muddy balm swatch with fine micro texture, soft satin matte finish, clean sculptural dome shape"
+        "top-down flat lay view, a rich dark warm terracotta chocolate brown cosmetic clay balm swatch, thick opaque skincare mud paste swatch smear on tabletop, fine micro texture, soft satin matte finish, distinct cosmetic swatch shape"
       ]
     },
     {
@@ -489,12 +489,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 02 - 파츠 2] 순백 휘핑크림",
+      "title": "🎨 [Prompt 02] 순백 휘핑크림 코스메틱 스와치",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "pure opaque bright snow white dense whipped cosmetic facial cream swatch, rich buttery texture, soft sculpted spatula peaks, luxurious satin glow, clean edges"
+        "top-down flat lay view, pure opaque bright snow white dense whipped facial cream cosmetic swatch, rich buttery skincare cream swatch with spatula texture ridges, luxurious satin glow, clean distinct cosmetic swatch edges"
       ]
     },
     {
@@ -611,12 +611,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 03 - 파츠 3] 로즈 핑크 글로스 젤",
+      "title": "🎨 [Prompt 03] 로즈 핑크 글로스 젤 코스메틱 스와치",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "translucent pastel rose pink hydrating cosmetic jelly serum, glossy wet look, dewy luminous sheen with subtle light reflections, clean sculpted jelly dome"
+        "top-down flat lay view, translucent pastel rose pink hydrating cosmetic gel serum swatch, glossy wet jelly droplet swatch, dewy luminous sheen with sparkling light reflections, clean cosmetic swatch drop"
       ]
     },
     {
@@ -733,12 +733,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 04 - 파츠 4] 유기농 말차 세이지 그린",
+      "title": "🎨 [Prompt 04] 말차 세이지 클레이 코스메틱 스와치",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "natural earthy matcha sage olive green soothing botanical clay paste, rich herbal cream texture, soft organic matte finish, clean rounded shape"
+        "top-down flat lay view, natural earthy matcha sage olive green soothing botanical clay paste cosmetic swatch, rich herbal skincare cream swatch, soft organic matte finish, clean rounded cosmetic swatch shape"
       ]
     },
     {
@@ -855,12 +855,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 05 - 파츠 5] 골든 앰버 허니 밤",
+      "title": "🎨 [Prompt 05] 골든 앰버 허니 밤 코스메틱 스와치",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "rich golden amber honey translucent facial balm, glowing warm radiant luster, dewy glistening melted balm texture, glossy reflections"
+        "top-down flat lay view, rich golden amber honey translucent facial melting balm cosmetic swatch, glowing warm radiant luster, dewy glistening melted balm skincare swatch, glossy reflections"
       ]
     },
     {
@@ -977,12 +977,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 06 - 파츠 6] 벨벳 피치 파운데이션",
+      "title": "🎨 [Prompt 06] 벨벳 누드 피치 파운데이션 코스메틱 스와치",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "smooth warm nude peach beige liquid foundation swatch, soft velvety matte powdery finish, flawless cosmetic makeup texture, clean contoured dome"
+        "top-down flat lay view, smooth warm nude peach beige liquid foundation cosmetic swatch, soft velvety matte powdery makeup foundation swatch smear, flawless cosmetic finish, clean cosmetic swatch shape"
       ]
     },
     {
@@ -1104,7 +1104,7 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "metal, metallic, steel, chrome, gadget, electronics, plastic container, bottle, lid, razor, text, watermark, signature, blurry, low resolution, deformed, noisy artifacts"
+        "side view, 3/4 perspective, standing, metal, metallic, chrome, gadget, electronics, bottle, jar, tube, lid, container, razor, food, blurry, messy, low quality, deformed"
       ]
     },
     {
@@ -1830,12 +1830,12 @@
           "slot_index": 0
         }
       ],
-      "title": "✨ [Stage 2] FLUX 화장품 CMF 리파인 프롬프트",
+      "title": "✨ [Stage 2] FLUX 코스메틱 스와치 CMF 리파인",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "commercial beauty product lookdev, luxury skincare cosmetic swatches of rich creams, translucent hydrating gels, clay paste and golden balm, ultra-realistic texture details, soft studio lighting with ambient occlusion, pristine commercial photography, 8k resolution"
+        "commercial beauty product lookdev, top-down flat lay view, overhead camera looking directly down, professional luxury skincare cosmetic swatches of rich facial creams, translucent hydrating jelly serums, botanical clay pastes and golden honey balms arranged on pristine studio surface, ultra-realistic micro texture details, soft studio lighting with ambient occlusion, 8k commercial photography"
       ]
     },
     {
@@ -1913,7 +1913,7 @@
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "metal, metallic, plastic, gadget, electronics, blurry, noisy, low quality, distorted, bad reflections, overexposed"
+        "side view, angled perspective, metal, metallic, plastic, gadget, electronics, blurry, noisy, low quality, distorted, bad reflections, overexposed"
       ]
     },
     {
