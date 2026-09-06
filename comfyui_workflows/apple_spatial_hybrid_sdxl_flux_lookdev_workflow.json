@@ -367,12 +367,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 01] 테라코타 클레이 밤 코스메틱 스와치",
+      "title": "🎨 [Prompt 01] 매끄러운 테라코타 클레이 밤 (No Particles)",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "top-down flat lay view, a rich dark warm terracotta chocolate brown cosmetic clay balm swatch, thick opaque skincare mud paste swatch smear on tabletop, fine micro texture, soft satin matte finish, distinct cosmetic swatch shape"
+        "top-down flat lay view, a rich dark warm terracotta chocolate brown cosmetic clay balm swatch, ultra-smooth silky dense skincare cream balm swatch smear on tabletop, completely smooth homogeneous buttery texture, soft satin matte finish, flawless clean surface, perfectly smooth cosmetic swatch shape, no particles"
       ]
     },
     {
@@ -733,12 +733,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 04] 말차 세이지 클레이 코스메틱 스와치",
+      "title": "🎨 [Prompt 04] 매끄러운 말차 수딩 밤 (No Particles)",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "top-down flat lay view, natural earthy matcha sage olive green soothing botanical clay paste cosmetic swatch, rich herbal skincare cream swatch, soft organic matte finish, clean rounded cosmetic swatch shape"
+        "top-down flat lay view, natural earthy matcha sage olive green soothing botanical cream paste cosmetic swatch, completely smooth silky refined skincare cream swatch, soft organic matte finish, flawless seamless texture, clean rounded cosmetic swatch shape, no grains"
       ]
     },
     {
@@ -1099,12 +1099,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🚫 [Stage 1] 전역 부정 프롬프트",
+      "title": "🚫 [Stage 1] 전역 부정 프롬프트 (알갱이/점/얼룩 차단)",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "side view, 3/4 perspective, standing, metal, metallic, chrome, gadget, electronics, bottle, jar, tube, lid, container, razor, food, blurry, messy, low quality, deformed"
+        "scrub beads, exfoliating granules, micro-beads, beads, seeds, dots, grainy particles, rough sand, bumps, pimples, blemishes, clumps, flecks, speckled texture, spots, stray drops, splatters, trypophobia, porous, dirty spots, coarse texture, gritty, side view, 3/4 perspective, standing, metal, metallic, chrome, gadget, electronics, bottle, jar, tube, lid, container, razor, food, blurry, messy, low quality, deformed"
       ]
     },
     {
@@ -1830,12 +1830,12 @@
           "slot_index": 0
         }
       ],
-      "title": "✨ [Stage 2] FLUX 코스메틱 스와치 CMF 리파인",
+      "title": "✨ [Stage 2] FLUX 실키 코스메틱 스와치 리파인",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "commercial beauty product lookdev, top-down flat lay view, overhead camera looking directly down, professional luxury skincare cosmetic swatches of rich facial creams, translucent hydrating jelly serums, botanical clay pastes and golden honey balms arranged on pristine studio surface, ultra-realistic micro texture details, soft studio lighting with ambient occlusion, 8k commercial photography"
+        "commercial beauty product lookdev, top-down flat lay view, overhead camera looking directly down, professional luxury skincare cosmetic swatches of ultra-smooth rich facial creams, silky translucent hydrating jelly serums, refined smooth clay balms and glistening honey balms arranged on pristine studio surface, flawlessly smooth silky textures, no beads, no particles, soft studio lighting with ambient occlusion, 8k commercial photography"
       ]
     },
     {
@@ -1908,12 +1908,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🚫 [Stage 2] FLUX 네거티브 프롬프트",
+      "title": "🚫 [Stage 2] FLUX 네거티브 프롬프트 (알갱이 차단)",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "side view, angled perspective, metal, metallic, plastic, gadget, electronics, blurry, noisy, low quality, distorted, bad reflections, overexposed"
+        "scrub beads, exfoliating granules, micro-beads, beads, seeds, dots, grainy particles, rough sand, bumps, pimples, blemishes, clumps, flecks, speckled texture, spots, stray drops, splatters, trypophobia, porous, dirty spots, coarse texture, gritty, side view, angled perspective, metal, metallic, plastic, gadget, electronics, blurry, noisy, low quality, distorted, bad reflections, overexposed"
       ]
     },
     {
