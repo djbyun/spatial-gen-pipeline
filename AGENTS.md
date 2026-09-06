@@ -14,6 +14,7 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 
 ### 📁 `comfyui_workflows/`
 - Production-ready ComfyUI node graphs for spatial generation:
+  - `apple_spatial_hybrid_sdxl_flux_lookdev_workflow.json`: **[Production Master] 2-Stage Hybrid Workflow (3D SDXL Regional No-LoRA Base -> FLUX.1-dev + Apple LoRA CMF Refiner)**.
   - `apple_spatial_oneshot_regional_workflow.json`: Multi-region material isolation with 3D Depth + Normal control (SDXL Gold Standard).
   - `apple_spatial_oneshot_regional_workflow_no_LoRA.json`: Baseline regional workflow without LoRA.
   - `apple_spatial_minimal_prompt_lora_workflow.json` & `apple_spatial_minimal_prompt_no_lora_workflow.json`: Minimal prompt lookdev graphs.
@@ -48,6 +49,8 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 
 ### 📁 `weights/`
 - `apple_minimal_craft_sdxl_v1.safetensors`: Trained SDXL LoRA checkpoint (managed via Git LFS).
+- `apple_minimal_craft_flux_v1.safetensors`: **Trained FLUX.1-dev LoRA checkpoint (~172MB)**.
+
 
 ---
 
