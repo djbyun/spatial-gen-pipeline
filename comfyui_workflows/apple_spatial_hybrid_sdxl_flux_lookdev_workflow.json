@@ -6,8 +6,8 @@
       "id": 99,
       "type": "Note",
       "pos": [
-        40,
-        -320
+        50,
+        -450
       ],
       "size": [
         700,
@@ -30,8 +30,8 @@
       "id": 1,
       "type": "CheckpointLoaderSimple",
       "pos": [
-        40,
-        60
+        50,
+        80
       ],
       "size": [
         315,
@@ -78,8 +78,8 @@
       "id": 3,
       "type": "ControlNetLoader",
       "pos": [
-        40,
-        220
+        50,
+        260
       ],
       "size": [
         340,
@@ -110,8 +110,8 @@
       "id": 4,
       "type": "LoadImage",
       "pos": [
-        400,
-        220
+        550,
+        260
       ],
       "size": [
         340,
@@ -148,8 +148,8 @@
       "id": 5,
       "type": "ControlNetLoader",
       "pos": [
-        40,
-        480
+        50,
+        420
       ],
       "size": [
         340,
@@ -180,8 +180,8 @@
       "id": 6,
       "type": "LoadImage",
       "pos": [
-        400,
-        480
+        550,
+        540
       ],
       "size": [
         340,
@@ -218,8 +218,8 @@
       "id": 7,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        60
+        550,
+        820
       ],
       "size": [
         380,
@@ -257,8 +257,8 @@
       "id": 8,
       "type": "LoadImage",
       "pos": [
-        800,
-        200
+        550,
+        1020
       ],
       "size": [
         280,
@@ -295,8 +295,8 @@
       "id": 9,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        60
+        1100,
+        820
       ],
       "size": [
         240,
@@ -340,8 +340,8 @@
       "id": 10,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        390
+        550,
+        1280
       ],
       "size": [
         380,
@@ -379,8 +379,8 @@
       "id": 11,
       "type": "LoadImage",
       "pos": [
-        800,
-        530
+        550,
+        1480
       ],
       "size": [
         280,
@@ -417,8 +417,8 @@
       "id": 12,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        390
+        1100,
+        1280
       ],
       "size": [
         240,
@@ -462,8 +462,8 @@
       "id": 13,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        720
+        550,
+        1740
       ],
       "size": [
         380,
@@ -501,8 +501,8 @@
       "id": 14,
       "type": "LoadImage",
       "pos": [
-        800,
-        860
+        550,
+        1940
       ],
       "size": [
         280,
@@ -539,8 +539,8 @@
       "id": 15,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        720
+        1100,
+        1740
       ],
       "size": [
         240,
@@ -584,8 +584,8 @@
       "id": 16,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        1050
+        550,
+        2200
       ],
       "size": [
         380,
@@ -623,8 +623,8 @@
       "id": 17,
       "type": "LoadImage",
       "pos": [
-        800,
-        1190
+        550,
+        2400
       ],
       "size": [
         280,
@@ -661,8 +661,8 @@
       "id": 18,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        1050
+        1100,
+        2200
       ],
       "size": [
         240,
@@ -706,8 +706,8 @@
       "id": 19,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        1380
+        550,
+        2660
       ],
       "size": [
         380,
@@ -745,8 +745,8 @@
       "id": 20,
       "type": "LoadImage",
       "pos": [
-        800,
-        1520
+        550,
+        2860
       ],
       "size": [
         280,
@@ -783,8 +783,8 @@
       "id": 21,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        1380
+        1100,
+        2660
       ],
       "size": [
         240,
@@ -828,8 +828,8 @@
       "id": 22,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        1710
+        550,
+        3120
       ],
       "size": [
         380,
@@ -867,8 +867,8 @@
       "id": 23,
       "type": "LoadImage",
       "pos": [
-        800,
-        1850
+        550,
+        3320
       ],
       "size": [
         280,
@@ -905,8 +905,8 @@
       "id": 24,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        1710
+        1100,
+        3120
       ],
       "size": [
         240,
@@ -950,8 +950,8 @@
       "id": 25,
       "type": "CLIPTextEncode",
       "pos": [
-        800,
-        2040
+        550,
+        3580
       ],
       "size": [
         380,
@@ -989,8 +989,8 @@
       "id": 26,
       "type": "LoadImage",
       "pos": [
-        800,
-        2180
+        550,
+        3780
       ],
       "size": [
         280,
@@ -1027,8 +1027,8 @@
       "id": 27,
       "type": "ConditioningSetMask",
       "pos": [
-        1220,
-        2040
+        1100,
+        3580
       ],
       "size": [
         240,
@@ -1072,8 +1072,8 @@
       "id": 28,
       "type": "CLIPTextEncode",
       "pos": [
-        40,
-        600
+        550,
+        80
       ],
       "size": [
         340,
@@ -1111,8 +1111,8 @@
       "id": 29,
       "type": "ConditioningCombine",
       "pos": [
-        1520,
-        60
+        1600,
+        1050
       ],
       "size": [
         230,
@@ -1152,8 +1152,8 @@
       "id": 30,
       "type": "ConditioningCombine",
       "pos": [
-        1520,
-        160
+        1600,
+        1970
       ],
       "size": [
         230,
@@ -1193,8 +1193,8 @@
       "id": 31,
       "type": "ConditioningCombine",
       "pos": [
-        1520,
-        260
+        1600,
+        2890
       ],
       "size": [
         230,
@@ -1234,8 +1234,8 @@
       "id": 32,
       "type": "ConditioningCombine",
       "pos": [
-        1800,
-        60
+        2050,
+        1510
       ],
       "size": [
         230,
@@ -1275,8 +1275,8 @@
       "id": 33,
       "type": "ConditioningCombine",
       "pos": [
-        1800,
-        200
+        2050,
+        3230
       ],
       "size": [
         230,
@@ -1316,8 +1316,8 @@
       "id": 34,
       "type": "ConditioningCombine",
       "pos": [
-        2080,
-        60
+        2550,
+        100
       ],
       "size": [
         240,
@@ -1357,8 +1357,8 @@
       "id": 35,
       "type": "ControlNetApplyAdvanced",
       "pos": [
-        2370,
-        60
+        2550,
+        350
       ],
       "size": [
         315,
@@ -1421,8 +1421,8 @@
       "id": 36,
       "type": "ControlNetApplyAdvanced",
       "pos": [
-        2370,
-        270
+        2550,
+        600
       ],
       "size": [
         315,
@@ -1485,8 +1485,8 @@
       "id": 37,
       "type": "EmptyLatentImage",
       "pos": [
-        2370,
-        480
+        2550,
+        850
       ],
       "size": [
         315,
@@ -1519,8 +1519,8 @@
       "id": 38,
       "type": "KSampler",
       "pos": [
-        2730,
-        60
+        3050,
+        80
       ],
       "size": [
         315,
@@ -1579,8 +1579,8 @@
       "id": 39,
       "type": "VAEDecode",
       "pos": [
-        3090,
-        60
+        3450,
+        80
       ],
       "size": [
         210,
@@ -1620,8 +1620,8 @@
       "id": 40,
       "type": "SaveImage",
       "pos": [
-        3350,
-        60
+        3750,
+        80
       ],
       "size": [
         340,
@@ -1649,8 +1649,8 @@
       "id": 50,
       "type": "UNETLoader",
       "pos": [
-        3700,
-        60
+        4300,
+        80
       ],
       "size": [
         315,
@@ -1682,8 +1682,8 @@
       "id": 51,
       "type": "LoraLoader",
       "pos": [
-        4050,
-        60
+        4800,
+        80
       ],
       "size": [
         315,
@@ -1736,8 +1736,8 @@
       "id": 52,
       "type": "DualCLIPLoader",
       "pos": [
-        3700,
-        200
+        4300,
+        240
       ],
       "size": [
         315,
@@ -1770,8 +1770,8 @@
       "id": 53,
       "type": "VAELoader",
       "pos": [
-        3700,
-        360
+        4300,
+        420
       ],
       "size": [
         315,
@@ -1803,8 +1803,8 @@
       "id": 54,
       "type": "CLIPTextEncode",
       "pos": [
-        4400,
-        60
+        5300,
+        80
       ],
       "size": [
         400,
@@ -1842,8 +1842,8 @@
       "id": 55,
       "type": "FluxGuidance",
       "pos": [
-        4830,
-        60
+        5750,
+        80
       ],
       "size": [
         210,
@@ -1881,8 +1881,8 @@
       "id": 56,
       "type": "CLIPTextEncode",
       "pos": [
-        4400,
-        270
+        5300,
+        320
       ],
       "size": [
         400,
@@ -1920,8 +1920,8 @@
       "id": 57,
       "type": "VAEEncode",
       "pos": [
-        4400,
-        430
+        5300,
+        520
       ],
       "size": [
         210,
@@ -1961,8 +1961,8 @@
       "id": 58,
       "type": "KSampler",
       "pos": [
-        5080,
-        60
+        6100,
+        80
       ],
       "size": [
         315,
@@ -2021,8 +2021,8 @@
       "id": 59,
       "type": "VAEDecode",
       "pos": [
-        5430,
-        60
+        6550,
+        80
       ],
       "size": [
         210,
@@ -2062,8 +2062,8 @@
       "id": 60,
       "type": "SaveImage",
       "pos": [
-        5680,
-        60
+        6850,
+        80
       ],
       "size": [
         380,
@@ -2530,7 +2530,63 @@
       "IMAGE"
     ]
   ],
-  "groups": [],
+  "groups": [
+    {
+      "title": "📦 [Stage 1: SDXL Base Loaders & 3D Spatial Passes]",
+      "bounding": [
+        20,
+        -50,
+        1000,
+        4100
+      ],
+      "color": "#1e293b",
+      "font_size": 24
+    },
+    {
+      "title": "🧩 [Stage 1: 7-Part Regional Masking & Binary Tree Topology]",
+      "bounding": [
+        1050,
+        -50,
+        1900,
+        4100
+      ],
+      "color": "#0f172a",
+      "font_size": 24
+    },
+    {
+      "title": "⚡ [Stage 1: 3D ControlNet Solvers & Base Render]",
+      "bounding": [
+        2500,
+        -50,
+        1650,
+        1100
+      ],
+      "color": "#1e3a5f",
+      "font_size": 24
+    },
+    {
+      "title": "🍏 [Stage 2: FLUX.1-dev 12B DiT + Apple Minimal Craft LoRA]",
+      "bounding": [
+        4250,
+        -50,
+        1750,
+        1100
+      ],
+      "color": "#064e3b",
+      "font_size": 24
+    },
+    {
+      "title": "🏆 [Stage 2: Low-Denoise Neural LookDev & Master Export]",
+      "bounding": [
+        6050,
+        -50,
+        1300,
+        1100
+      ],
+      "color": "#1e1b4b",
+      "font_size": 24
+    }
+  ],
   "config": {},
   "extra": {},
   "version": 0.4
