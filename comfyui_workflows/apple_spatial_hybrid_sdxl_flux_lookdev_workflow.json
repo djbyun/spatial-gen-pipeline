@@ -245,12 +245,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🌐 [Prompt BG] 웜 오렌지 바닥 + 선명한 그림자",
+      "title": "🌐 [Prompt BG] 미니멀 스튜디오 배경",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "a hero commercial product photo in apl_minimal_craft style, solid vibrant warm orange painted matte wooden studio tabletop surface, crisp direct studio spotlight with deep sharp dark dramatic contact cast shadows, photorealistic 8k uhd"
+        "apple minimal craft style, clean seamless neutral matte light gray studio backdrop, soft diffuse ambient occlusion contact shadows, pristine commercial product showcase"
       ]
     },
     {
@@ -367,12 +367,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 01] 머디(Muddy) 다크 초코 점토",
+      "title": "🎨 [Prompt 01 - 중앙/본체] 아노다이징 알루미늄",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "(deep dark rich chocolate brown terracotta clay:1.35) coarse granular muddy clay scrub paste with tactile sandy scrub particles, thick earthy matte mud texture, dark espresso brown color"
+        "apple minimal craft style, solid space gray bead-blasted anodized aluminum metal chassis, fine sandblasted micro grain, crisp chamfered edge highlights, clean matte surface"
       ]
     },
     {
@@ -489,12 +489,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 02] 스패출러 각이 선 순백 휘핑크림",
+      "title": "🎨 [Prompt 02 - 파츠 2] 내추럴 실버 티타늄",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "(pure stark snow white:1.4) opaque bright white whipped thick dense cosmetic cream swatch with thick sculptural spatula knife ridges and sharp tactile peaks, satin gloss"
+        "apple minimal craft style, natural silver matte brushed titanium enclosure, precision cnc milled edge, subtle metallic sheen, pristine clean geometry"
       ]
     },
     {
@@ -611,12 +611,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 03] 펄 스파클 로즈 핑크 젤",
+      "title": "🎨 [Prompt 03 - 파츠 3] 블랙 사파이어 글래스",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "(vibrant pastel rose pink:1.35) translucent cosmetic cream gel with (tiny subtle golden micro-sparkles:1.3) and fine pearlescent cosmetic glitter shimmer, glossy sparkling highlights"
+        "apple minimal craft style, deep black optical sapphire crystal glass, antireflective purple-tint coating, clean sharp specular reflections, glossy polished finish"
       ]
     },
     {
@@ -733,12 +733,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 04] 유기농 말차 세이지 머드",
+      "title": "🎨 [Prompt 04 - 파츠 4] 매트 널링 다이얼/버튼",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "(natural earthy matcha sage olive green:1.35) thick muddy botanical clay scrub paste with rough organic granules, matte earthy green mud"
+        "apple minimal craft style, tactile knurled matte aluminum digital crown dial, precision micro grooves, dark graphite finish, clean solid metal"
       ]
     },
     {
@@ -855,12 +855,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 05] 골드 스파클 꿀빛 앰버 밤",
+      "title": "🎨 [Prompt 05 - 파츠 5] 세라믹 글래스 패널",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "(rich golden amber honey yellow:1.35) translucent nourishing facial balm with (fine glowing gold micro-shimmer:1.3), radiant dewy sparkling luster"
+        "apple minimal craft style, pristine dark ceramic shield glass panel, deep gloss surface, minimal reflection, solid precision manufactured"
       ]
     },
     {
@@ -977,12 +977,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [Prompt 06] 파우더리 누드 피치 베이지",
+      "title": "🎨 [Prompt 06 - 파츠 6] 플루오로엘라스토머 밴드",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "(smooth warm nude peach beige:1.25) liquid foundation cream swatch with soft matte powdery velvety finish"
+        "apple minimal craft style, smooth matte fluoroelastomer soft-touch surface, clean molded edges, midnight navy blue color, velvety premium finish"
       ]
     },
     {
@@ -1099,12 +1099,12 @@
           "slot_index": 0
         }
       ],
-      "title": "🚫 [부정 프롬프트] 품질 저하 방지",
+      "title": "🚫 [Stage 1] 전역 부정 프롬프트",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "metal, metallic, chrome, shiny steel, gold, plastic, hard surface, glass, mirror, gadget, razor, machine, electronics, leather, bottle, lid, flat 2D, blurry shadows, text, watermark, label, low quality, blurry"
+        "blurry, powder, mud, messy, clay, cream, food, smeared, distorted, noisy, artifacts, watermark, text, signature, bad geometry, low resolution"
       ]
     },
     {
@@ -1407,14 +1407,14 @@
           "slot_index": 1
         }
       ],
-      "title": "📐 3D Depth 볼륨 결합 (강도 0.55)",
+      "title": "📐 3D Depth 형상 락 (강도 0.85)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
-        0.55,
+        0.85,
         0.0,
-        0.8
+        0.9
       ]
     },
     {
@@ -1471,14 +1471,14 @@
           "slot_index": 1
         }
       ],
-      "title": "🧭 3D Normal 질감 결합 (강도 0.50)",
+      "title": "🧭 3D Normal 굴곡 락 (강도 0.80)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
-        0.5,
+        0.8,
         0.0,
-        0.7
+        0.85
       ]
     },
     {
@@ -1505,13 +1505,13 @@
           "slot_index": 0
         }
       ],
-      "title": "✨ 캔버스 생성 (16:9 HD 1344x768)",
+      "title": "✨ 캔버스 생성 (3D 가이드 1:1 일치 1024x1024)",
       "properties": {
         "Node name for S&R": "EmptyLatentImage"
       },
       "widgets_values": [
-        1344,
-        768,
+        1024,
+        1024,
         1
       ]
     },
