@@ -42,12 +42,12 @@ def select_and_deploy_shot(shot_num_str):
             shutil.copy2(src_file, dst_file)
             copied.append(f)
 
-    m0 = os.path.join(src_dir, "Mask_00.png")
     mb = os.path.join(COMFY_INPUT, "Mask_Background.png")
-    if os.path.exists(m0) and not os.path.exists(os.path.join(src_dir, "Mask_Background.png")):
-        shutil.copy2(m0, mb)
-        if "Mask_Background.png" not in copied:
-            copied.append("Mask_Background.png")
+    if os.path.exists(mb):
+        try:
+            os.remove(mb)
+        except Exception:
+            pass
 
     print("\n" + "="*60)
     print(f">> [Shot {shot_key}] Successfully Deployed to ComfyUI!")

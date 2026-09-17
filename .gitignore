@@ -47,3 +47,14 @@ wheels/
 .idea/
 *.sublime-project
 *.sublime-workspace
+
+# Secrets and Local Configs
+.env
+.env.*
+*bunny_config.json
+*config.local.json
+
+# Scratch and Temporary Backups
+scratch/
+*_backup_pre_update/
+

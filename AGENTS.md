@@ -10,7 +10,7 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 ### 📁 `3d_guides/`
 - Rendered 3D guide passes (EXR/PNG) from Houdini/Maya:
   - `normal.exr` / `depth.exr` / `color_id.exr` / `mask.exr`
-  - `3d_guides/0005/`: `Id.png`, `Mask_01.png` ~ `Mask_06.png`, `Mask_Background.png`
+  - `3d_guides/0005/`: `Id.png`, `Mask_00.png`, `Mask_01.png` ~ `Mask_06.png`
 
 ### 📁 `comfyui_workflows/`
 - Production-ready ComfyUI node graphs for spatial generation:
@@ -41,6 +41,12 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 ### 📁 `presentation/`
 - Keynote-ready inspection boards, 4x5 & 7x3 curation grids (`presentation/dataset_curation_7x3_pure_black.png`, `dataset_curation_7x3_dark.png`, `dataset_curation_7x3_light.png`).
 
+### 📁 `tools/prompt_compositor/`
+- **Web-based Spatial LookDev Prompt Compositor Studio**:
+  - `launch_prompt_compositor.bat`: One-click web app launcher (`http://localhost:8080`).
+  - `index.html`, `style.css`, `app.js`: Dark glassmorphism interactive 3D multi-part swatch visualizer, live Normal/Depth pass inspector, and real-time FLUX & SDXL prompt synthesizer.
+  - `server.py`: Lightweight zero-dependency Python backend serving 3D guide passes and one-click ComfyUI shot deployment (`/api/deploy_shot`).
+
 ### 📁 `scripts/`
 - `load_exr.py` & `inspect_and_process_exr.py`: Multi-channel EXR decomposition and color normalization.
 - `build_final_dataset.py`, `build_complete_clean_dataset.py` & `build_flux_dataset.py`: Automated cropping, caption conversion, and metadata alignment.
@@ -55,12 +61,17 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 ---
 
 ## 3. Local Environment & Model Directory Configuration
-- **ComfyUI Desktop (Windows Local) Models Path**:
+- **Windows ComfyUI Desktop Models Path**:
   - `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models`
   - Checkpoints: `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models\checkpoints`
   - ControlNet: `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models\controlnet`
   - LoRAs: `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\models\loras`
   - Inputs (Guides): `C:\Users\DJ\AppData\Local\Comfy-Desktop\ComfyUI-Shared\input`
+- **macOS ComfyUI (Apple Silicon / MPS) Path**:
+  - ComfyUI Desktop / Standalone: `~/Library/Application Support/ComfyUI/models` or `~/ComfyUI/models`
+  - LoRAs: `.../models/loras` (`apple_minimal_craft_flux_v1.safetensors`, `apple_minimal_craft_sdxl_v1.safetensors`)
+  - ControlNet: `.../models/controlnet` (`diffusers_xl_depth_mid.safetensors`, `controlnet-sd-xl-1.0-softedge-dexined.safetensors`, etc.)
+  - PyTorch MPS device support (`--force-fp16` or default MPS acceleration).
 
 ---
 
@@ -68,22 +79,29 @@ This repository contains the **Apple Minimal Spatial LookDev Generation Pipeline
 1. **Trigger Tokens & Prompting**:
    - SDXL Token: `apl_minimal_craft style`, `clean matte studio lookdev`, `ambient occlusion lighting`.
    - FLUX Token: `apple minimal craft style`, `clean matte studio lookdev`, `ambient occlusion lighting`.
-2. **Spatial Guide Alignment**:
+2. **Cosmetic & Hardware LookDev Presets**:
+   - Skincare Swatch LookDev: Top-down palette of smooth creams, translucent gels, custards, clays, balms without beads/particles.
+   - Hardware CMF LookDev: Apple-grade bead-blasted anodized aluminum, sandblasted titanium, optical glass.
+3. **Spatial Guide Alignment**:
    - Depth and Normal maps must be normalized to standard RGB ranges before ComfyUI ControlNet nodes.
    - EXR channels are mapped dynamically: `N.x, N.y, N.z` to Normal, `Z` or `P.z` to Depth.
-3. **Model & VRAM Considerations**:
+4. **Model & VRAM Considerations**:
    - SDXL base model with LoRA rank 16/32.
    - FLUX.1-dev with LoRA rank 16 (FP8 quantized training on Colab T4/L4).
    - Works across Mac MPS (Apple Silicon), Colab T4/A100, and PC RTX (e.g. RTX 2080 / 3080 / 4090).
+5. **FLUX Multi-Stage Roadmap**:
+   - **Stage 1 (SDXL 3D Regional Base)**: Locks 3D geometry and regional material boundaries via 3D Depth + Normal ControlNet and binary-tree multi-masks.
+   - **Stage 2 (FLUX.1-dev Refiner)**: Injects micro-surface CMF, ambient lighting, and Apple LookDev texture at low denoise (~0.25-0.35).
+   - **FLUX Multi-Pass Detail Refinement**: Denoise step stepping (High Denoise layout -> Low Denoise LoRA texture injection) and optional IP-Adapter reference blending.
 
 ---
 
-## 5. Continuity Instructions for Antigravity Agent
-When resuming work on PC:
+## 5. Continuity Instructions for Antigravity Agent (Cross-Platform: Windows & macOS)
+When resuming work on Mac or PC:
 1. Always reference `AGENTS.md` for pipeline structure and naming conventions.
-2. Use the local ComfyUI Desktop models path recorded in Section 3 when managing or syncing weights.
-3. Check `docs/HOUDINI_PASS_EXPORT_GUIDE.md` when adjusting 3D passes or node interfaces.
-4. ComfyUI workflows in `comfyui_workflows/` are the single source of truth for generation pipelines.
+2. Read `docs/FLUX_SDXL_SPATIAL_PIPELINE_ARCHITECTURE.md` and `docs/HOUDINI_PASS_EXPORT_GUIDE.md` for architectural blueprints.
+3. ComfyUI workflows in `comfyui_workflows/` are the single source of truth for generation pipelines.
+4. Prompt Compositor Studio web app runs via `python tools/prompt_compositor/server.py` (or `launch_prompt_compositor.sh` on Mac / `.bat` on Windows).
 
 ---
 

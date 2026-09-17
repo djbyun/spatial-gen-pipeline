@@ -1,0 +1,71 @@
+{
+  "id": "production_00",
+  "name": "Production_00",
+  "description": "Classic 6-part skincare lookdev: Terracotta, Pure Cream, Rose Gel, Matcha, Honey, Peach Foundation",
+  "isBuiltin": false,
+  "shot": 9,
+  "globalState": {
+    "sharedStyle": "clean matte studio lookdev, minimalist commercial studio photography",
+    "fluxPrefix": "a photo in apple minimal craft style of",
+    "camera": "top-down flat lay view",
+    "lighting": "directional key light from top-right (1 o'clock direction) at an extreme low-angle 25-degree grazing angle emphasizing surface relief and micro-textures, casting deep high-contrast studio shadows toward the bottom-left, clean ambient occlusion fill",
+    "lightingAzimuth": 30,
+    "lightingElevation": 25,
+    "shadowStyle": "deep high-contrast studio shadows",
+    "subjectType": "professional luxury skincare cosmetic swatches",
+    "bgDesc": "warm pale pastel akaroa champagne beige tone low saturation, desaturated pale muted chroma, clean matte studio tabletop surface, seamless non-reflective finish, zero glare",
+    "bgMaterial": "clean matte studio tabletop surface",
+    "bgFinish": "seamless non-reflective finish, zero glare",
+    "bgColor": "#d4cfaa",
+    "bgColorDesc": "warm pale pastel akaroa champagne beige tone low saturation, desaturated pale muted chroma",
+    "negative": "floating, hovering, levitating, airborne, detached shadow, gap beneath object, light bleed at contact base, sticker cutout, soap, soap bar, soapy, rubber, silicone, latex, polymer, wax, solid plastic, plastic toy, metal, metallic, chrome, gadget, electronics, pimples, blemishes, stray drops, splatters, scattered droplets, side view, angled perspective, blurry, noisy, low quality, distorted, bad reflections, overexposed"
+  },
+  "activeSwatches": [
+    {
+      "imageSrc": "",
+      "color": "#dcd2c1",
+      "colorDesc": "warm pale pastel sisal terracotta beige tone low saturation, desaturated pale muted chroma",
+      "material": "soothing botanical cream paste cosmetic swatch, completely smooth silky refined skincare cream swatch",
+      "finish": "soft organic matte finish, flawless seamless texture, clean rounded cosmetic luxury swatch, no grains",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface"
+    },
+    {
+      "imageSrc": "",
+      "color": "#daa472",
+      "colorDesc": "warm natural balanced whiskey terracotta coral tone soft muted saturation, subtle subdued chroma",
+      "material": "translucent hydrating cosmetic jelly serum droplet",
+      "finish": "glossy wet look, dewy luminous sheen with sparkling light reflections",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface"
+    },
+    {
+      "imageSrc": "",
+      "color": "#f5d1a8",
+      "colorDesc": "warm bright vivid maize terracotta coral tone high saturation, rich vibrant pure chroma",
+      "material": "translucent hydrating cosmetic jelly serum droplet",
+      "finish": "glossy wet look, dewy luminous sheen with sparkling light reflections",
+      "volume": "smooth continuous cosmetic smear, flat ribbon stroke adhering to tabletop surface"
+    },
+    {
+      "imageSrc": "",
+      "color": "#d97706",
+      "colorDesc": "warm golden honey amber tone",
+      "material": "smooth liquid foundation, high-coverage cosmetic smear",
+      "finish": "soft velvety matte powdery finish, flawless cosmetic makeup texture",
+      "volume": "smooth continuous cosmetic smear, flat ribbon stroke adhering to tabletop surface"
+    },
+    {
+      "imageSrc": "",
+      "color": "#f59e0b",
+      "colorDesc": "warm peach beige tone",
+      "material": "smooth liquid foundation, high-coverage cosmetic smear",
+      "finish": "soft velvety matte powdery finish, flawless cosmetic makeup texture",
+      "volume": "smooth continuous cosmetic smear, flat ribbon stroke adhering to tabletop surface"
+    }
+  ],
+  "relightState": {
+    "lightAzimuth": 30,
+    "lightElevation": 25,
+    "presetIdx": 0,
+    "colorMode": "swatch"
+  }
+}

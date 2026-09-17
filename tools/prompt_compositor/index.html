@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spatial LookDev Prompt Compositor</title>
+  <meta name="description" content="2-Stage Modular Spatial LookDev Prompt Compositor for SDXL 3D Regional Base & FLUX.1-dev Style Finisher">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=12.3">
+</head>
+<body class="dark-theme">
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="brand-icon">🍏</span>
+        <div>
+          <h1 class="brand-title">Spatial LookDev Prompt Compositor</h1>
+          <p class="brand-subtitle">2-Stage Pipeline: SDXL 3D Regional Base ➡️ FLUX.1-dev Style Finisher</p>
+        </div>
+      </div>
+      
+      <!-- Top Navigation: Master Builder vs Swatch CMF -->
+      <div class="header-nav">
+        <button id="nav-global" class="main-nav-btn active" onclick="switchMainTab('global')">
+          🌐 Master Prompt Builder (Global)
+        </button>
+        <button id="nav-cmf" class="main-nav-btn" onclick="switchMainTab('cmf')">
+          🎨 Swatch CMF Manager (Regional)
+        </button>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="copySDXLAll()" id="copy-sdxl-btn" title="Copy combined SDXL positive and negative prompts">
+          <span>🧩 Copy SDXL All</span>
+        </button>
+        <button class="btn btn-primary" onclick="openDynamicExportModal()" id="copy-wf-v3-btn" title="Dynamically configure and export 100% custom-tailored ComfyUI workflow JSON" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #34d399; font-weight: 700;">
+          <span>⚡ Generate Dynamic Workflow</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Top Global Parameters: ComfyUI 2-Stage Master Controls (Collapsible) -->
+  <section class="comfy-params-banner" id="comfy-params-banner">
+    <div class="comfy-params-inner">
+      <div class="comfy-params-header" id="comfy-params-header" onclick="toggleComfyParamsCollapse()" title="Click to Expand / Collapse ComfyUI Parameters">
+        <div class="comfy-params-title">
+          <span class="params-icon">🎛️</span>
+          <h3>ComfyUI Parameters</h3>
+          <span class="badge badge-subtle">2-Stage Master Controls</span>
+          <span id="comfy-params-collapsed-summary" class="badge" style="display: none; font-size: 10.5px; background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.35); color: #7dd3fc; font-family: var(--font-mono); font-weight: 600;">
+            LoRA: 0.55 | Guidance: 2.8 | Denoise: 0.21 | Seed: 7
+          </span>
+        </div>
+        <div class="comfy-params-actions" style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn btn-tiny-reset" onclick="event.stopPropagation(); resetComfyParamsToDefault()" title="Reset all generation parameters to balanced defaults">🔄 Reset</button>
+          <button class="btn btn-tiny-reset" id="btn-toggle-comfy-collapse" onclick="event.stopPropagation(); toggleComfyParamsCollapse()" title="Toggle Expand / Collapse (접었다 펴기)" style="font-weight: 700; color: #38bdf8; border-color: rgba(56,189,248,0.35); background: rgba(56,189,248,0.1);">
+            ▲ 접기
+          </button>
+        </div>
+      </div>
+
+      <div class="comfy-params-grid" id="comfy-params-grid">
+        <!-- Box 1: 🌐 3D Depth ControlNet -->
+        <div class="param-box">
+          <div class="param-box-header">
+            <span class="param-box-icon">🌐</span>
+            <span class="param-box-title">3D Depth ControlNet</span>
+            <span class="param-box-node">Node 51</span>
+          </div>
+          <div class="param-inputs-row">
+            <div class="param-item">
+              <label for="param-depth-strength" title="ControlNet Depth Strength">Strength</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-depth-strength" min="0.0" max="2.0" step="0.05" value="0.65" oninput="onComfyParamChange('depthStrength', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-depth-start" title="Starting step percentage">Start %</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-depth-start" min="0.0" max="1.0" step="0.05" value="0.0" oninput="onComfyParamChange('depthStart', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-depth-end" title="Ending step percentage (Stop early to allow natural edge fluid pooling)">End %</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-depth-end" min="0.0" max="1.0" step="0.05" value="0.55" oninput="onComfyParamChange('depthEnd', this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 2: 🧭 3D Normal ControlNet -->
+        <div class="param-box">
+          <div class="param-box-header">
+            <span class="param-box-icon">🧭</span>
+            <span class="param-box-title">3D Normal ControlNet</span>
+            <span class="param-box-node">Node 52</span>
+          </div>
+          <div class="param-inputs-row">
+            <div class="param-item">
+              <label for="param-normal-strength" title="ControlNet Normal Strength">Strength</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-normal-strength" min="0.0" max="2.0" step="0.05" value="0.30" oninput="onComfyParamChange('normalStrength', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-normal-start" title="Starting step percentage">Start %</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-normal-start" min="0.0" max="1.0" step="0.05" value="0.0" oninput="onComfyParamChange('normalStart', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-normal-end" title="Ending step percentage">End %</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-normal-end" min="0.0" max="1.0" step="0.05" value="0.50" oninput="onComfyParamChange('normalEnd', this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 3: 🍎 Stage 1: SDXL Apple LoRA -->
+        <div class="param-box">
+          <div class="param-box-header">
+            <span class="param-box-icon">🍎</span>
+            <span class="param-box-title">SDXL Apple LoRA</span>
+            <label class="param-toggle-label" title="Enable / Disable SDXL LoRA injection">
+              <input type="checkbox" id="param-sdxl-lora-toggle" onchange="onComfyParamChange('useSdxlLora', this.checked)">
+              <span>Enable</span>
+            </label>
+          </div>
+          <div class="param-inputs-row">
+            <div class="param-item">
+              <label for="param-sdxl-lora-strength" title="SDXL LoRA Model & CLIP Strength">Strength</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-sdxl-lora-strength" min="0.0" max="2.0" step="0.05" value="0.95" oninput="onComfyParamChange('sdxlLoraStrength', this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 4: ⚡ Stage 1: SDXL KSampler -->
+        <div class="param-box">
+          <div class="param-box-header">
+            <span class="param-box-icon">⚡</span>
+            <span class="param-box-title">SDXL KSampler</span>
+            <span class="param-box-node">Node 54</span>
+          </div>
+          <div class="param-inputs-row">
+            <div class="param-item">
+              <label for="param-sdxl-cfg" title="Classifier-Free Guidance (Keep 5.0~6.0 for clean matte look without burned artifacts)">CFG Scale</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-sdxl-cfg" min="1.0" max="20.0" step="0.5" value="5.5" oninput="onComfyParamChange('sdxlCfg', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-sdxl-denoise" title="Initial sampling denoise (Default 1.0 for generating from empty latent)">Denoise</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-sdxl-denoise" min="0.1" max="1.0" step="0.05" value="1.0" oninput="onComfyParamChange('sdxlDenoise', this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 5: ✨ Stage 2: FLUX Refiner & LoRA -->
+        <div class="param-box">
+          <div class="param-box-header">
+            <span class="param-box-icon">✨</span>
+            <span class="param-box-title">FLUX Refiner & LoRA</span>
+            <span class="param-box-node">Stage 2</span>
+          </div>
+          <div class="param-inputs-row">
+            <div class="param-item">
+              <label for="param-flux-lora-weight" title="Apple Minimal Craft FLUX LoRA strength (Default 0.55)">LoRA Wt</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-flux-lora-weight" min="0.0" max="1.5" step="0.05" value="0.55" oninput="onComfyParamChange('fluxLoraWeight', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-flux-guidance" title="Flux Guidance Scale (Default 2.8 - lower values keep surfaces smooth)">Guidance</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-flux-guidance" min="1.0" max="10.0" step="0.1" value="2.8" oninput="onComfyParamChange('fluxGuidance', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-flux-denoise" title="FLUX CMF Refinement Denoise (Default 0.21 - preserves clean SDXL planar surfaces)">Denoise</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-flux-denoise" min="0.0" max="1.0" step="0.01" value="0.21" oninput="onComfyParamChange('fluxDenoise', this.value)">
+              </div>
+            </div>
+            <div class="param-item">
+              <label for="param-flux-cfg" title="FLUX KSampler CFG (Default 1.0)">CFG</label>
+              <div class="param-input-wrap">
+                <input type="number" id="param-flux-cfg" min="1.0" max="5.0" step="0.5" value="1.0" oninput="onComfyParamChange('fluxCfg', this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 6: 🎲 Deterministic Seed Lock -->
+        <div class="param-box" style="border-color: rgba(167,139,250,0.4); background: linear-gradient(135deg, rgba(30,27,75,0.4), rgba(15,23,42,0.6));">
+          <div class="param-box-header">
+            <span class="param-box-icon">🎲</span>
+            <span class="param-box-title" style="color: #c4b5fd;">Deterministic Seed</span>
+            <span class="badge" style="font-size: 9px; padding: 1px 5px; background: rgba(167,139,250,0.25); border: 1px solid #a78bfa; color: #f5f3ff;">🔒 FIXED</span>
+          </div>
+          <div class="param-inputs-row">
+            <div class="param-item" style="flex: 1.2;">
+              <label for="top-seed-input" title="Locked seed for deterministic reproducible LookDev (Default: 7)">Seed Number</label>
+              <div class="param-input-wrap">
+                <input type="number" id="top-seed-input" min="0" max="2147483647" value="7" oninput="onSeedInputChange(this.value)" style="font-weight: 700; color: #f5f3ff; background: rgba(0,0,0,0.4);">
+              </div>
+            </div>
+            <div class="param-item" style="display: flex; gap: 4px; align-items: flex-end;">
+              <button type="button" class="btn btn-xs" onclick="setSeedValue(7)" title="Reset to Seed 7" style="height: 24px; padding: 0 6px; font-size: 9.5px; font-weight: 700; background: rgba(167,139,250,0.25); border: 1px solid #a78bfa; color: #e9d5ff; border-radius: 4px; cursor: pointer;">
+                7
+              </button>
+              <button type="button" class="btn btn-xs" onclick="randomizeSeedValue()" title="Generate New Random Seed & Lock" style="height: 24px; padding: 0 6px; font-size: 9.5px; font-weight: 700; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; border-radius: 4px; cursor: pointer;">
+                🎲
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="app-main">
+    
+    <!-- Left Column: 3D Shot Manager & Live Pass Inspector -->
+    <aside class="panel panel-left">
+      <!-- 3D Shot Selector & 1-Click Deploy -->
+      <div class="card shot-card">
+        <div class="card-header">
+          <h2>🎬 3D Shot Manager</h2>
+          <div class="shot-header-right" style="display: flex; align-items: center; gap: 8px;">
+            <select id="direct-asset-source-select" class="form-select" onchange="onAssetSourceChange(this.value)" title="Choose 3D Asset Source: Local PC or BunnyCDN Cloud" style="padding: 2px 8px; font-size: 11px; height: 26px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: #f1f5f9; font-weight: 600; cursor: pointer;">
+              <option value="local">💻 Local PC</option>
+              <option value="cdn">🐰 BunnyCDN</option>
+            </select>
+            <span class="badge" id="current-shot-badge">Shot 0001</span>
+          </div>
+        </div>
+        <div class="shot-controls">
+          <button class="btn btn-icon" onclick="changeShot(-1)" title="Previous Shot">◀</button>
+          <input type="range" id="shot-slider" min="1" max="100" value="1" oninput="onShotSliderChange(this.value)">
+          <button class="btn btn-icon" onclick="changeShot(1)" title="Next Shot">▶</button>
+          <input type="number" id="shot-input" min="1" max="100" value="1" onchange="onShotInputChange(this.value)">
+        </div>
+        <div class="shot-info" id="shot-status-text">
+          Active: <code>3d_guides/0001</code> (Depth, Normal, Masks 00~06)
+        </div>
+
+        <!-- 1-Click Direct Copy & Deploy Button -->
+        <div style="display: flex; gap: 6px; margin-top: 6px;">
+          <button class="btn btn-deploy-cta" onclick="quickCopyWorkflow()" id="btn-quick-copy" title="Copy workflow to clipboard in 1 click (No modal popups!)" style="flex: 1; background: linear-gradient(135deg, #10b981, #059669); border-color: #34d399; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35); font-size: 13px; font-weight: 700; padding: 10px 12px;">
+            <span>⚡ 1-Click Quick Copy (클립보드 즉시 복사)</span>
+          </button>
+          <button class="btn btn-secondary" onclick="openDynamicExportModal()" title="Open advanced export options & JSON save modal" style="padding: 0 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #cbd5e1; font-size: 13px; cursor: pointer;">
+            ⚙️
+          </button>
+        </div>
+
+        <!-- Stage 1 Spatial Engine Selector: Gemini VLM vs SDXL vs SeaDance -->
+        <div class="engine-select-card mt-8" style="background: rgba(15,23,42,0.65); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(192,132,252,0.4); margin-top: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 11px; font-weight: 700; color: #c084fc; text-transform: uppercase; letter-spacing: 0.4px;">⚡ Spatial Engine</span>
+            <span class="badge" id="engine-mode-badge" style="font-size: 10px; padding: 1px 6px; background: rgba(192,132,252,0.2); border: 1px solid #c084fc; color: #f3e8ff; font-weight: 700;">💎 VLM + FLUX</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+            <button type="button" class="btn btn-engine active" id="btn-engine-vlm" onclick="setStage1Engine('vlm')" style="grid-column: span 2; padding: 7px 4px; font-size: 11.5px; font-weight: 700; border-radius: 5px; border: 1px solid #c084fc; background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(236,72,153,0.25)); color: #fdf4ff; cursor: pointer;">
+              💎 Gemini VLM + FLUX Master (No SDXL)
+            </button>
+            <button type="button" class="btn btn-engine" id="btn-engine-sdxl" onclick="setStage1Engine('sdxl')" style="padding: 5px 4px; font-size: 10.5px; font-weight: 600; border-radius: 5px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #94a3b8; cursor: pointer;">
+              🚀 SDXL + FLUX
+            </button>
+            <button type="button" class="btn btn-engine" id="btn-engine-seadance" onclick="setStage1Engine('seadance')" style="padding: 5px 4px; font-size: 10.5px; font-weight: 600; border-radius: 5px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #94a3b8; cursor: pointer;">
+              🌊 SeaDance + FLUX
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Guide Passes: Dynamic Slot Selection & Custom Role Labels -->
+        <div class="shot-pass-select-section mt-8" style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(192,132,252,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11.5px; font-weight: 700; color: #c084fc;">🌐 3D Guide Passes & Roles</span>
+              <span class="badge" id="guide-slots-count-badge" style="font-size: 9.5px; padding: 1px 6px; background: rgba(192,132,252,0.2); border: 1px solid #c084fc; color: #f3e8ff; font-weight: 700;">3 Passes</span>
+            </div>
+            <button type="button" class="btn btn-xs" onclick="addNewGuideSlot()" title="Add another 3D Guide pass (e.g. AO, Roughness, Shading, Ref)" style="padding: 2px 8px; font-size: 10.5px; font-weight: 700; background: linear-gradient(135deg, rgba(147,51,234,0.4), rgba(236,72,153,0.4)); border: 1px solid #c084fc; color: #fff; border-radius: 4px; cursor: pointer;">
+              + Add Pass
+            </button>
+          </div>
+
+          <!-- Dynamic Guide Slots List Container -->
+          <div id="dynamic-guide-slots-list" class="dynamic-guide-slots-list" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Rendered dynamically by app.js renderGuideSlots() -->
+          </div>
+
+          <!-- Direct VLM Synthesize Action Button inside Guide Passes Panel -->
+          <button type="button" class="btn btn-vlm-main-action mt-8" id="btn-vlm-auto-synth-left" onclick="callGeminiVlmSynthesizer()" title="Gemini Vision으로 위 3D 가이드와 레이블을 분석하여 FLUX 룩뎁 프롬프트 자동 생성" style="width: 100%; padding: 9px 12px; font-size: 12px; font-weight: 700; background: linear-gradient(135deg, #9333ea, #ec4899); border: 1px solid #c084fc; color: #fff; border-radius: 6px; box-shadow: 0 0 14px rgba(236,72,153,0.35); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px;">
+            <span>✨ AI Gemini VLM 3D 분석 합성</span>
+          </button>
+
+          <div style="font-size: 10px; color: #94a3b8; margin-top: 8px; line-height: 1.35; padding: 4px 6px; background: rgba(255,255,255,0.03); border-radius: 4px;">
+            💡 <strong>VLM Role Recognition:</strong> 각 가이드 이미지에 부여한 <strong>레이블(역할)</strong>은 Gemini VLM 분석 시 프롬프트에 직접 매핑되어 정확한 물리 광학 룩뎁에 반영됩니다.
+          </div>
+        </div>
+
+        <!-- Deterministic Seed Control (Fixed Seed: Default 7) -->
+        <div class="seed-control-section mt-8" style="background: rgba(15,23,42,0.65); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(167,139,250,0.3); margin-top: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="font-size: 11px; font-weight: 700; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.4px;">🎲 Deterministic Seed</span>
+            <span class="badge" style="font-size: 9.5px; padding: 1px 6px; background: rgba(167,139,250,0.2); border: 1px solid #a78bfa; color: #f5f3ff; font-weight: 700;">🔒 FIXED</span>
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <input type="number" id="global-seed-input" value="7" min="0" max="2147483647" onchange="onSeedInputChange(this.value)" style="flex: 1; height: 26px; font-size: 12px; font-weight: 700; background: rgba(0,0,0,0.5); border: 1px solid rgba(167,139,250,0.4); border-radius: 4px; color: #f5f3ff; padding: 0 8px;">
+            <button type="button" class="btn btn-xs" onclick="setSeedValue(7)" title="Reset to Seed 7" style="height: 26px; padding: 0 8px; font-size: 10px; font-weight: 700; background: rgba(167,139,250,0.2); border: 1px solid #a78bfa; color: #e9d5ff; border-radius: 4px; cursor: pointer;">
+              Reset (7)
+            </button>
+            <button type="button" class="btn btn-xs" onclick="randomizeSeedValue()" title="Generate New Seed & Lock" style="height: 26px; padding: 0 8px; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; border-radius: 4px; cursor: pointer;">
+              🎲 New
+            </button>
+          </div>
+        </div>
+
+        <!-- Live 3D Spatial CMF LookDev Viewport -->
+        <div class="viewport-3d-wrapper mt-12">
+          <div class="preview-label-row mb-6">
+            <span class="preview-label">✨ 3D Spatial CMF Viewport</span>
+            <div class="viewport-badge-group">
+              <button class="btn btn-tiny-mode" id="btn-toggle-color-mode" onclick="toggle3DColorMode()" title="Toggle between Live Swatch Colors and Clay Mode">🎨 CMF Colors</button>
+            </div>
+          </div>
+          <div class="preview-img-box preview-3d-box" title="Drag mouse to rotate 3D lighting! Double-click to cycle material modes.">
+            <canvas id="canvas-3d-lit" width="256" height="256"></canvas>
+            <div class="light-hint">💡 3D CMF Active</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LookDev Presets Studio Card -->
+      <div class="card preset-card">
+        <div class="card-header">
+          <h2>📦 LookDev Presets</h2>
+          <span class="badge" id="preset-count-badge">5 Presets</span>
+        </div>
+
+        <!-- Preset Dropdown with [X] Delete Button -->
+        <div class="preset-select-row mt-6">
+          <select id="preset-main-select" class="form-select preset-dropdown" onchange="onPresetDropdownChange(this.value)" title="Choose a LookDev Studio preset">
+            <!-- Populated dynamically via JS -->
+          </select>
+          <button class="btn btn-icon-delete" id="btn-delete-preset-icon" onclick="deleteCurrentPreset()" title="Delete this preset">✕</button>
+        </div>
+
+        <!-- Preset Mini Swatch Palette Preview Bar -->
+        <div class="preset-palette-preview-wrap mt-8">
+          <div class="preview-label-row mb-4">
+            <span class="preview-label">🎨 Palette Overview</span>
+            <span class="preset-desc-label" id="preset-desc-hint">6-Part Swatches + P0 Floor</span>
+          </div>
+          <div class="preset-palette-preview" id="preset-palette-preview" title="Preset color harmony (P0 Floor + P1~P6 Swatches)">
+            <!-- Dynamic 7 color chips -->
+          </div>
+        </div>
+
+        <!-- Preset Action Buttons Grid -->
+        <div class="preset-actions-grid mt-10">
+          <button class="btn btn-xs btn-preset-action" onclick="openSavePresetModal()" title="Save current settings as a new preset">
+            💾 Save
+          </button>
+          <button class="btn btn-xs btn-preset-action" onclick="exportPresetJson()" title="Download entire configuration as JSON file">
+            📥 Export JSON
+          </button>
+          <button class="btn btn-xs btn-preset-action" onclick="triggerImportPresetJson()" title="Upload and apply a preset JSON or ComfyUI Workflow JSON file">
+            📂 Import JSON
+          </button>
+          <button class="btn btn-xs btn-preset-action" style="background: rgba(14, 165, 233, 0.2); border-color: rgba(14, 165, 233, 0.4); color: #38bdf8;" onclick="syncFromMasterWorkflow()" title="Read all prompts, reference images, and settings directly from the Master v3 Workflow JSON">
+            🔄 Sync from Master v3
+          </button>
+        </div>
+
+        <!-- Hidden file input for Import JSON -->
+        <input type="file" id="preset-file-input" accept=".json" style="display: none;" onchange="handlePresetFileImport(event)">
+      </div>
+
+      <!-- Pipeline Role Architecture Card -->
+      <div class="card role-card">
+        <div class="card-header">
+          <h2>🏛️ 2-Stage Pipeline Roles</h2>
+        </div>
+        <div class="role-desc">
+          <p><strong>1단계 SDXL Base:</strong> 3D Normal/Depth 구속 + 6개 마스크별 CMF 하드 격리 (No-LoRA).</p>
+          <p class="mt-6"><strong>2단계 FLUX Refiner:</strong> LoRA 기반 글로벌 스튜디오 조명 & 시그니처 톤 마감 (Denoise 0.35~0.40).</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center/Right Column: Active View (Global Tab OR Swatch CMF Tab) + Live Output -->
+    <section class="panel panel-center">
+      
+      <!-- ======================================================== -->
+      <!-- PERMANENT TOP CARD: 0. Floor Prompt (P0 Mask & FLUX Tabletop) -->
+      <!-- Visible in BOTH Master Prompt Builder & Swatch CMF Manager -->
+      <!-- ======================================================== -->
+      <div class="card mb-16 p0-card-box" id="permanent-floor-card">
+        <!-- P0 Row Header Bar -->
+        <div class="cmf-row-header">
+          <div class="cmf-row-header-left">
+            <span class="prompt-badge-tiny p0">🏛️ P0 Floor</span>
+            <span style="font-size:11.5px;font-weight:700;color:#f1f5f9;letter-spacing:0.3px;">Studio Tabletop</span>
+            <!-- Mode Toggles for P0 -->
+            <div class="mode-toggle-group">
+              <label class="toggle-chip active-img" id="p0-toggle-img-chip">
+                <input type="checkbox" id="p0-use-image-toggle" checked onchange="toggleP0UseImage(this.checked)">
+                <span>📸 Use Image</span>
+              </label>
+              <label class="toggle-chip active-pos" id="p0-toggle-pos-chip">
+                <input type="checkbox" id="p0-use-pos-toggle" checked onchange="toggleP0UsePosText(this.checked)">
+                <span>✍️ Use Pos Script</span>
+              </label>
+              <label class="toggle-chip" id="p0-toggle-neg-chip">
+                <input type="checkbox" id="p0-use-neg-toggle" onchange="toggleP0UseNegText(this.checked)">
+                <span>🚫 Use Neg Script</span>
+              </label>
+            </div>
+
+            <!-- P0 IPAdapter & Script Weights -->
+            <div class="weights-control-group" id="p0-weights-group">
+              <div class="weight-item" title="P0 Floor IPAdapter Image Weight (Default: 0.95)">
+                <label for="p0-image-weight">Img W</label>
+                <input type="number" id="p0-image-weight" min="0.0" max="2.0" step="0.05" value="0.95" oninput="onP0WeightChange('p0ImageWeight', this.value)">
+              </div>
+              <div class="weight-item weight-prompt" title="P0 Floor Prompt Weight / Mask Strength (Default: 1.00)">
+                <label for="p0-prompt-weight">Txt W</label>
+                <input type="number" id="p0-prompt-weight" min="0.0" max="2.0" step="0.05" value="1.00" oninput="onP0WeightChange('p0PromptWeight', this.value)">
+              </div>
+            </div>
+          </div>
+          <div class="output-actions">
+            <button class="btn btn-sm btn-primary" onclick="copyP0Prompt()">📋 Copy P0 Pos</button>
+          </div>
+        </div>
+
+        <!-- P0 CMF Grid with Mask & Ref Image Box in Master Builder -->
+        <div class="cmf-inputs-grid" id="p0-cmf-grid" style="grid-template-columns: 80px 84px minmax(140px, 1.2fr) minmax(240px, 2.8fr); margin-top: 8px;">
+          <!-- P0 Mask Pass Selector (Left of Ref Image) -->
+          <div class="col-mask" id="p0-mask-box-wrapper">
+            <div class="mask-select-box" id="p0-mask-box" title="P0 Floor Mask (Mask_00.png)">
+              <img id="p0-mask-preview" src="/3d_guides/0001/Mask_00.png" alt="Mask P0" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'84\' fill=\'%23111\'><rect width=\'80\' height=\'84\'/><text x=\'50%25\' y=\'50%25\' fill=\'%23a855f7\' font-size=\'10\' text-anchor=\'middle\' dy=\'.3em\'>Mask 00</text></svg>'">
+            </div>
+            <select class="mask-select-dropdown" id="p0-mask-select" onchange="onP0MaskSelectChange(this.value)" title="Choose P0 Floor Mask pass">
+              <option value="Mask_00.png" selected>Mask 00</option>
+              <option value="Mask_01.png">Mask 01</option>
+              <option value="Mask_02.png">Mask 02</option>
+              <option value="Mask_03.png">Mask 03</option>
+              <option value="Mask_04.png">Mask 04</option>
+              <option value="Mask_05.png">Mask 05</option>
+              <option value="Mask_06.png">Mask 06</option>
+            </select>
+          </div>
+
+          <!-- P0 Ref Image Upload -->
+          <div class="col-img" id="p0-img-box-wrapper">
+            <div class="img-upload-box" id="p0-img-box" onclick="triggerP0ImageUpload()" title="Click to upload P0 Floor reference texture image">
+              <span class="img-upload-placeholder" id="p0-img-placeholder">🖼️</span>
+              <img id="p0-img-preview" style="display:none;" alt="P0 Ref">
+              <input type="file" id="file-input-p0" class="file-input-hidden" accept="image/*" onchange="handleP0ImageFile(event)">
+            </div>
+            <span class="img-upload-hint">1K Texture</span>
+          </div>
+
+          <!-- [C] Floor Color -->
+          <div class="col-color" id="p0-col-color">
+            <label style="font-size:10px;color:var(--text-muted);font-weight:700;"><span class="cmf-col-badge cmf-badge-c">C</span> Floor Color</label>
+            <textarea class="color-desc-textarea" id="global-p0-color-desc" placeholder="Floor color prompt..." oninput="autoResize(this); onP0ColorDescChange(this.value)">warm neutral off-white tone</textarea>
+            <div class="color-picker-row">
+              <input type="color" class="color-picker-input" id="global-bg-color-picker" value="#f4f2ee" oninput="onP0ColorPickerChange(this.value)" onchange="onP0ColorPickerChange(this.value)">
+              <input type="text" class="color-text-input" id="global-bg-color-text" value="#f4f2ee" placeholder="#RRGGBB" oninput="onP0ColorTextChange(this.value)" onchange="onP0ColorTextChange(this.value)">
+            </div>
+          </div>
+
+          <!-- [MF] Floor Material & Finish -->
+          <div class="col-mf" id="p0-col-mf">
+            <label style="font-size:10px;color:var(--text-muted);font-weight:700;"><span class="cmf-col-badge cmf-badge-mf">MF</span> Floor Material & Finish</label>
+            <select class="mf-preset-select" id="global-p0-mf-select" onchange="onP0MFSelectChange(this.value)" title="Choose quick floor material & finish preset">
+              <option value="">⚡ Floor Material & Finish...</option>
+              <option value="clean matte studio tabletop surface, seamless non-reflective finish, zero glare">1. Studio Tabletop & Non-Reflective Matte (클린 매트 스튜디오 무광)</option>
+              <option value="natural travertine stone slab surface, fine organic porous texture, soft earthy matte finish">2. Travertine Stone Slab & Organic Matte (자연석 트래버틴 석판 무광)</option>
+              <option value="fine porcelain ceramic plate surface, ultra-smooth micro-sheen, pristine minimal tabletop">3. Porcelain Ceramic Plate & Micro Sheen (포슬린 도자기 플레이트 은은한 윤기)</option>
+              <option value="smooth solid architectural plaster tabletop, fine chalky texture, diffuse non-specular finish">4. Architectural Plaster & Diffuse Matte (건축용 석고 플라스터 무광)</option>
+              <option value="monolithic deep obsidian mineral slate tabletop, anti-reflective clean dark minimal surface">5. Deep Obsidian Slate & Dark Matte (딥 블랙 흑요석 슬레이트 무광)</option>
+              <option value="fine sandblasted anodized aluminum tabletop, micro metallic grain, refined diffuse sheen">6. Sandblasted Aluminum Tabletop (샌드블라스트 알루미늄 메탈릭)</option>
+            </select>
+            <textarea class="cmf-textarea" id="global-p0-mf-text" placeholder="Floor material & finish..." oninput="autoResize(this); onP0MFChange(this.value)">clean matte studio tabletop surface, seamless non-reflective finish, zero glare</textarea>
+          </div>
+        </div>
+
+        <!-- Live P0 Positive Script Editor Layout -->
+        <div class="row-prompt-preview-bar p0-row mt-8" id="p0-prompt-bar">
+          <div class="prompt-side-control">
+            <span class="prompt-badge-tiny p0">🏛️ P0 Pos</span>
+            <label class="custom-prompt-toggle" title="Directly write custom prompt for P0 Floor">
+              <input type="checkbox" id="p0-custom-prompt-toggle" onchange="toggleP0CustomPrompt(this.checked)">
+              <span>✏️ Edit</span>
+            </label>
+          </div>
+
+          <div class="prompt-main-editor">
+            <div id="p0-live-prompt-container" style="flex: 1; min-width: 0;">
+              <span class="live-prompt-text" id="live-prompt-p0-global"></span>
+              <textarea class="custom-prompt-textarea" id="p0-custom-prompt-textarea" rows="2" style="display: none; margin-top: 2px;" placeholder="Directly write custom prompt for P0 Floor..." oninput="autoResize(this); onP0CustomPromptChange(this.value)"></textarea>
+            </div>
+            <button class="btn-copy-inline" onclick="copyP0Prompt()" title="Copy P0 Floor Positive Prompt">📋 Copy</button>
+          </div>
+        </div>
+
+        <!-- P0 Floor Negative Script Editor Layout (Hidden by default) -->
+        <div class="row-prompt-preview-bar p0-row neg-row mt-6" id="p0-neg-prompt-bar" style="display: none;">
+          <div class="prompt-side-control">
+            <span class="prompt-badge-tiny p0-neg">🚫 P0 Neg</span>
+          </div>
+
+          <div class="prompt-main-editor">
+            <textarea class="custom-prompt-textarea neg-textarea" id="p0-negative-prompt-textarea" rows="2" placeholder="P0 Floor Negative prompt..." oninput="autoResize(this); onP0NegativePromptChange(this.value)">floating, hovering, levitating, airborne, detached shadow, gap beneath object, light bleed at contact base, sticker cutout, soap, rubber, silicone, plastic, metal, cracks, dry clay, wrinkled, pimples, blurry, noisy, low quality</textarea>
+            <button class="btn-copy-inline" onclick="copyP0NegativePrompt()" title="Copy P0 Floor Negative Prompt">📋 Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- PERMANENT TOP CARD 2: 💡 Studio Lighting & Mood (Direction & Shadow) -->
+      <!-- Visible in BOTH Master Prompt Builder & Swatch CMF Manager -->
+      <!-- ======================================================== -->
+      <div class="card mb-16" id="permanent-lighting-card">
+        <div class="card-header">
+          <h2>💡 <span class="highlight-yellow">Studio Lighting</span> & Mood (Unified 3D Direction & Shadow)</h2>
+          <div class="output-actions">
+            <div class="lighting-sync-badge" id="lighting-vector-badge">☀️ 45° (1시) | 30° Grazing</div>
+            <button class="btn btn-sm btn-secondary" onclick="copyLightingPrompt()">📋 Copy Lighting</button>
+          </div>
+        </div>
+
+        <div class="lighting-split-grid mt-8">
+          <!-- Left: Interactive Lighting Direction Controls -->
+          <div class="light-control-panel">
+            <!-- Top-Down 360° Azimuth Dial & Slider -->
+            <div class="light-control-col">
+              <div class="light-col-header">
+                <span class="light-col-title">🧭 Top-View Azimuth (360° 시계방향)</span>
+                <span class="light-col-val" id="val-azimuth">45° (1시 Top-Right)</span>
+              </div>
+              <div class="light-slider-row">
+                <input type="range" id="light-azimuth-slider" min="0" max="360" step="5" value="45" oninput="onLightAngleSliderChange()">
+              </div>
+            </div>
+
+            <!-- Elevation Angle Slider (10° - 90°) -->
+            <div class="light-control-col">
+              <div class="light-col-header">
+                <span class="light-col-title">📐 Floor Elevation (바닥 입사각)</span>
+                <span class="light-col-val" id="val-elevation">30° (Shallow Grazing)</span>
+              </div>
+              <div class="light-slider-row">
+                <input type="range" id="light-elevation-slider" min="10" max="90" step="5" value="30" oninput="onLightAngleSliderChange()">
+              </div>
+            </div>
+
+            <!-- Shadow Character / Style Dropdown -->
+            <div class="light-control-col">
+              <div class="light-col-header">
+                <span class="light-col-title">🌑 Shadow Character (그림자 스타일)</span>
+              </div>
+              <select class="shadow-style-select" id="light-shadow-select" onchange="onShadowStyleChange(this.value)" title="Choose shadow character">
+                <option value="auto">⚡ Auto (입사각 연동 자동 계산)</option>
+                <option value="soft subtle contact shadows">1. Soft Subtle Contact (부드러운 접촉 그림자)</option>
+                <option value="crisp sharp razor-thin contact shadows">2. Crisp Razor-Sharp (선명하고 또렷한 엣지 그림자)</option>
+                <option value="soft diffused penumbra drop shadows">3. Soft Diffused Penumbra (부드럽게 퍼지는 디퓨즈 그림자)</option>
+                <option value="elongated dramatic cast shadows">4. Elongated Dramatic Cast (길게 드리우는 시네마틱 그림자)</option>
+                <option value="soft tight ambient occlusion contact drop shadows directly beneath, minimal cast shadow">5. Minimal Tight AO (바닥 밀착 미니멀 AO 그림자)</option>
+                <option value="deep high-contrast studio shadows">6. Deep High-Contrast (짙고 깊은 콘트라스트 그림자)</option>
+                <option value="soft floating studio drop shadows with clean falloff">7. Floating Clean Falloff (자연스러운 스튜디오 드롭 섀도우)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Right: Lighting Prompt Textarea & Presets -->
+          <div class="lighting-prompt-col">
+            <label for="global-lighting-text" style="font-size:10.5px;color:var(--text-muted);font-weight:700;margin-bottom:4px;">💡 Synthesized Lighting Prompt (모든 P0~P6 및 FLUX에 실시간 반영)</label>
+            <textarea class="cmf-textarea" id="global-lighting-text" list="lighting-suggestions" placeholder="Directional lighting prompt..." oninput="autoResize(this); onGlobalLightingTextInput()">directional key light from top-right (1 o'clock direction) at a shallow 30-degree grazing angle emphasizing surface relief and micro-textures, casting soft subtle contact shadows toward the bottom-left, clean ambient occlusion fill</textarea>
+            <datalist id="lighting-suggestions">
+              <option value="directional key light from top-right (1 o'clock direction) at a shallow 30-degree grazing angle emphasizing surface relief and micro-textures, casting soft subtle contact shadows toward the bottom-left, clean ambient occlusion fill">1시 방향 30도 낮은 사광 (텍스처 강조)</option>
+              <option value="classic directional key light from top-left (10 o'clock direction) at a 45-degree studio elevation, casting soft subtle contact shadows toward the bottom-right, pristine ambient occlusion fill">10시 방향 애플 시그니처 룩뎁 (45도 균형)</option>
+              <option value="strong 90-degree side raking light from direct right side (3 o'clock direction) at a low 25-degree angle, casting elongated horizontal contact cast shadows toward the left side, deep ambient occlusion fill">3시 방향 사이드 레이킹 라이트</option>
+              <option value="pure top-down diffused overhead softbox lighting at an 85-degree vertical elevation, casting soft tight ambient occlusion contact drop shadows directly beneath, zero harsh glare">정오 수직 직하 디퓨즈 조명</option>
+            </datalist>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 1: Global Scene & Modular Master Assembly -->
+      <!-- ======================================================== -->
+      <div id="view-global" class="view-panel active">
+        
+        <!-- 1. Global Scene & FLUX Live Master Prompt (통합 카드) -->
+        <div class="card">
+          <div class="card-header">
+            <h2>🌐 1. <span class="highlight-yellow">SDXL</span> & <span class="highlight-yellow">FLUX</span> Global Scene Parameters</h2>
+          </div>
+          
+          <!-- Shared Style Header at the very top -->
+          <div class="form-group mb-12">
+            <label for="global-style-header">🏷️ [Shared Style / LookDev Header] (공통 스타일 헤더)</label>
+            <textarea class="cmf-textarea" id="global-style-header" oninput="autoResize(this); onGlobalChange()">clean matte studio lookdev, minimalist commercial studio photography</textarea>
+            <span class="field-hint">※ Standard lookdev style keywords shared by SDXL and FLUX</span>
+          </div>
+
+          <!-- Row 1: Camera & Subject (2-Column Grid) -->
+          <div class="form-grid-2 mb-12">
+            <!-- Camera Input -->
+            <div class="form-group">
+              <label for="global-camera-text">📷 [Camera] Viewport & Perspective</label>
+              <textarea class="cmf-textarea" id="global-camera-text" list="camera-suggestions" oninput="autoResize(this); onGlobalChange()">top-down flat lay view</textarea>
+              <datalist id="camera-suggestions">
+                <option value="top-down flat lay view">Top-Down Flat Lay View</option>
+                <option value="macro studio close-up view, crisp optical focus">Macro Studio Close-up (45°)</option>
+                <option value="subtle high-angle isometric studio view">Subtle High-Angle Isometric</option>
+                <option value="direct eye-level commercial studio photography">Direct Eye-Level Commercial</option>
+              </datalist>
+            </div>
+
+            <!-- Subject Input -->
+            <div class="form-group">
+              <label for="global-subject-type">🏷️ [Subject] Overarching Domain</label>
+              <textarea class="cmf-textarea" id="global-subject-type" oninput="autoResize(this); onGlobalChange()">professional luxury skincare cosmetic swatches</textarea>
+            </div>
+          </div>
+
+          <!-- FLUX LoRA Prefix Input -->
+          <div class="form-group mt-16">
+            <label for="flux-specific-prefix">✨ [<span class="highlight-yellow-lg">FLUX</span> Exclusive Prefix] (<span class="highlight-yellow-lg">LoRA</span> Trigger Token)</label>
+            <textarea class="cmf-textarea" id="flux-specific-prefix" oninput="autoResize(this); onGlobalChange()">a photo in apple minimal craft style of</textarea>
+            <span class="field-hint">※ FLUX.1-dev Apple LoRA 전용 트리거 (위 Shared Style 바로 앞에 자동 합성)</span>
+          </div>
+
+          <!-- Real-Time FLUX Master Live Prompt Preview Box -->
+          <div class="mt-16">
+            <div class="block-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="block-title">⚡ <span class="highlight-yellow">FLUX</span> Live Synthesized Master Prompt (Stage 2 Refiner)</span>
+                <label class="custom-prompt-toggle" title="Directly edit FLUX Master Prompt">
+                  <input type="checkbox" id="flux-custom-prompt-toggle" onchange="toggleFluxCustomPrompt(this.checked)">
+                  <span>✏️ Edit</span>
+                </label>
+              </div>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <button class="btn btn-sm" id="btn-vlm-auto-synth" onclick="callGeminiVlmSynthesizer()" title="Use Gemini Vision to analyze 3D guides & generate photorealistic LookDev prompt" style="background: linear-gradient(135deg, #9333ea, #ec4899); border: 1px solid #c084fc; color: #fff; font-weight: 700; box-shadow: 0 0 12px rgba(236,72,153,0.35); cursor: pointer;">
+                  ✨ AI Gemini VLM 3D 분석 합성
+                </button>
+                <button class="btn btn-sm btn-secondary" id="btn-toggle-formula" onclick="toggleAssemblyFormula()" title="Show/Hide Real-time Modular Assembly Formula">🧩 Formula ▼</button>
+                <button class="btn btn-sm btn-primary" onclick="copyFLUXMaster()" title="Copy live synthesized FLUX master prompt">📋 Copy FLUX Master</button>
+              </div>
+            </div>
+
+            <!-- Modular Master Prompt Assembly Blueprint (Hidden by default) -->
+            <div class="assembly-blueprint-box mt-10 mb-12" id="assembly-blueprint-box" style="display: none;">
+              <div class="blueprint-header">
+                <span class="blueprint-title">🧩 2-Stage LookDev Prompt Assembly Formula (실시간 조합 공식)</span>
+                <span class="sub-text">Stage 1은 7개 지역 마스크로 색상을 격리하고, Stage 2는 FLUX 전역 마스터로 CMF를 완성합니다</span>
+              </div>
+
+              <!-- Stage 1 Regional & Global Formula -->
+              <div class="assembly-row">
+                <div class="assembly-label"><span class="badge-tag tag-sdxl">Stage 1 SDXL</span></div>
+                <div class="assembly-formula">
+                  <span class="token-chip chip-common" title="Global Scene (0.7)">[🌐 Global: Camera + Grounding + 25° Light (0.7)]</span>
+                  <span class="token-plus">+</span>
+                  <span class="token-chip chip-sdxl" title="P1~P6 VCMF">[🎨 Regional: (V) Volume + (C) Color + (M) Material + (F) Finish (1.0)]</span>
+                  <span class="token-plus">➔</span>
+                  <span class="token-chip chip-sdxl" title="Balanced Binary Tree">Balanced Binary Tree + Global Light (Zero Color Bleed)</span>
+                </div>
+              </div>
+
+              <!-- Stage 2 FLUX Formula -->
+              <div class="assembly-row mt-8">
+                <div class="assembly-label"><span class="badge-tag tag-flux">Stage 2 FLUX</span></div>
+                <div class="assembly-formula">
+                  <span class="token-chip chip-flux" id="formula-flux-prefix" title="FLUX LoRA Prefix">[FLUX LoRA Prefix]</span>
+                  <span class="token-plus">+</span>
+                  <span class="token-chip chip-common" title="Shared Style Header">[Shared Style Header]</span>
+                  <span class="token-plus">+</span>
+                  <span class="token-chip chip-common" title="Shared Camera">[Camera]</span>
+                  <span class="token-plus">+</span>
+                  <span class="token-chip chip-common" title="Shared Subject">[Subject]</span>
+                  <span class="token-plus">+</span>
+                  <span class="token-chip chip-sdxl" title="P0 Floor CMF">arranged on a [P0 Floor CMF]</span>
+                  <span class="token-plus">+</span>
+                  <span class="token-chip chip-common" title="Shared Lighting">[Lighting Vector & Shadows]</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="prompt-box">
+              <pre id="flux-master-prompt-text"></pre>
+              <textarea class="custom-prompt-textarea" id="flux-custom-prompt-textarea" style="display: none; min-height: 80px;" rows="3" placeholder="Directly write custom FLUX Master Prompt..." oninput="autoResize(this); onFLUXCustomPromptChange(this.value)"></textarea>
+            </div>
+            <div class="prompt-meta mb-16">
+              <span class="meta-item">🎯 Trigger Grammar: <code>apple minimal craft style, clean matte studio lookdev, ambient occlusion lighting...</code></span>
+              <span class="meta-item">🔒 Stage 2 Role: <code>Global CMF Harmonizer & Refiner (Denoise 0.38)</code></span>
+            </div>
+          </div>
+
+          <!-- Stage 1 SDXL Global Scene (Camera & Lighting) Prompt Box -->
+          <div class="output-sub-block mt-12">
+            <div class="block-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="block-title">🌐 Stage 1 : SDXL 전역 프롬프트 (Global Scene: Camera & Studio Lighting, 강도 0.7)</span>
+                <label class="custom-prompt-toggle" title="Directly edit SDXL Global Scene Prompt">
+                  <input type="checkbox" id="sdxl-global-custom-prompt-toggle" onchange="toggleSdxlGlobalCustomPrompt(this.checked)">
+                  <span>✏️ Edit</span>
+                </label>
+              </div>
+              <button class="btn btn-xs btn-secondary" onclick="copyGlobalScenePrompt()">📋 Copy Global Scene</button>
+            </div>
+            <div class="prompt-box mt-8">
+              <pre id="sdxl-global-scene-prompt-text"></pre>
+              <textarea class="custom-prompt-textarea" id="sdxl-global-custom-prompt-textarea" style="display: none; min-height: 60px;" rows="2" placeholder="Directly write custom SDXL Global Scene Prompt..." oninput="autoResize(this); onSDXLGlobalCustomPromptChange(this.value)"></textarea>
+              <!-- Hidden reference for backward compatibility -->
+              <pre id="sdxl-master-prompt-text" style="display: none;"></pre>
+            </div>
+            <div class="prompt-meta" style="margin-top: 4px; line-height: 1.5;">
+              <span class="meta-item">💡 <strong>Node 70 주입</strong>: P0~P6 개별 마스크 프롬프트와 분리되어 <strong>카메라 뷰포트 + 30° 스튜디오 조명 + 바닥 접촉 그림자</strong>를 씬 전체에 0.7 강도로 일괄 투사합니다.</span>
+            </div>
+          </div>
+
+          <!-- Stage 1 SDXL Regional Swatches Quick Navigation -->
+          <div class="output-sub-block mt-12">
+            <div class="block-header">
+              <span class="block-title">🎨 Stage 1 : SDXL 3D Regional Swatches (P0 Floor + P1 ~ P6 Parts)</span>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn btn-xs btn-secondary" onclick="copySDXLRegionalJSON()">📋 Copy Regional JSON</button>
+                <button class="btn btn-xs btn-primary" onclick="switchMainTab('cmf')">🎨 Open Swatch CMF Manager ➔</button>
+              </div>
+            </div>
+            <div class="prompt-meta" style="margin-top: 4px; line-height: 1.5;">
+              <span class="meta-item">💡 각 부품(P1~P6)은 카메라/조명 사족 없이 <strong>오직 [색상 C + 재질 M + 피니시 F] 100% 독립 마스크</strong>로 렌더링됩니다.</span>
+              <span class="meta-item">📍 개별 부품 CMF 및 색상 튜닝은 상단의 <strong>[🎨 Swatch CMF Manager]</strong> 탭에서 실시간으로 확인 및 편집할 수 있습니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Global Negative Settings -->
+        <div class="card mt-16">
+          <div class="card-header">
+            <h2>🚫 2. Global Negative Prompt (Anti-Granule & Quality Filters - <span class="highlight-yellow">SDXL</span> & <span class="highlight-yellow">FLUX</span>)</h2>
+            <button class="btn btn-sm btn-primary" onclick="copyNegativePrompt()">Copy Negative</button>
+          </div>
+          <div class="form-group">
+            <label for="global-negative-textarea">Negative Prompt Words (Filters unwanted beads, noise, perspective distortion)</label>
+            <textarea class="cmf-textarea" id="global-negative-textarea" rows="3" oninput="autoResize(this); onGlobalChange()"></textarea>
+          </div>
+          <div class="quick-chips-row">
+            <span class="label-tiny">Quick Filters:</span>
+            <button class="chip" onclick="appendNegative('oversaturated, vivid colors, neon, intense chroma, high saturation, overly vibrant, gaudy, bright yellow, glaring gold')">+ Anti-Oversaturation (저채도 유지)</button>
+            <button class="chip" onclick="appendNegative('scrub beads, exfoliating granules, micro-beads, dots, seeds')">+ Anti-Scrub Beads</button>
+            <button class="chip" onclick="appendNegative('side view, angled perspective, distorted perspective')">+ Anti-Angled Perspective</button>
+            <button class="chip" onclick="appendNegative('trypophobia, bumpy, speckled texture, pimples, blemishes')">+ Anti-Trypophobia</button>
+            <button class="chip" onclick="appendNegative('blurry, noisy, low quality, bad reflections, overexposed')">+ Anti-Low-Quality</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 2: Swatch CMF Manager (Per-Swatch Row Table) -->
+      <!-- ======================================================== -->
+      <div id="view-cmf" class="view-panel">
+        <div class="card cmf-table-card">
+          <div class="card-header">
+            <div class="table-title-group">
+              <h2>🎨 Swatch CMF Manager</h2>
+            </div>
+            
+            <!-- Table Action Buttons: + (Add Row), - (Remove Last) -->
+            <div class="table-header-actions">
+              <button class="btn btn-sm btn-action" onclick="addSwatchRow()" title="Add New Swatch Row">
+                <span>➕ Add Swatch</span>
+              </button>
+              <button class="btn btn-sm btn-action" onclick="removeLastSwatchRow()" title="Remove Last Swatch Row">
+                <span>➖ Remove Last</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Swatch CMF Rows Table Header -->
+          <div class="cmf-table-header">
+            <div class="col-mask"><span class="cmf-col-badge cmf-badge-mask">🎭</span> 3D Mask</div>
+            <div class="col-img">📸 Ref Image</div>
+            <div class="col-volume"><span class="cmf-col-badge cmf-badge-v">V</span> Volume (Form / Mound)</div>
+            <div class="col-color"><span class="cmf-col-badge cmf-badge-c">C</span> Color (Picker & Prompt)</div>
+            <div class="col-mf"><span class="cmf-col-badge cmf-badge-mf">MF</span> Material & Finish (Texture, Refraction & Luster)</div>
+          </div>
+
+          <!-- Datalist Suggestions for Volume / Mound / Shape Keywords -->
+          <datalist id="volume-suggestions">
+            <option value="swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges, fluid pooling along edges, dimensional tactile smear resting firmly on tabletop surface">⭐ 1. Center Smear & Raised Outer Ridges (가운데 얇은 스미어 & 테두리 도톰 릿지)</option>
+            <option value="diagonal cosmetic cream smear tapering from thin translucent start to a thick raised dimensional edge ridge resting firmly on tabletop surface">⭐ 2. Tapered Smear with Thick Trailing Edge (스패출러 끝 도톰 둔덕)</option>
+            <option value="smooth thin diagonal smear of creamy liquid, flat continuous layer adhering flush to tabletop surface with soft feathered edges">3. Thin Creamy Liquid Smear (얇게 펴 바른 리퀴드 스미어)</option>
+            <option value="flat pressed cosmetic powder swatch, single flat swipe mark with crushed crumbly texture and textured powdery edges, flat matte finish spread flush on tabletop surface">4. Flat Crushed Powder Smear (납작하게 부서진 파우더 스미어)</option>
+            <option value="thick dollop of dense cosmetic balm, substantial volumetric convex mound resting firmly on tabletop surface">5. Volumetric Convex Mound (도톰한 볼록 둔덕)</option>
+            <option value="thick dollop of sculpted cosmetic cream, volumetric raised sculptural peak resting firmly on tabletop surface">6. Volumetric Sculptural Peak (조각 같은 입체 피크)</option>
+            <option value="viscous translucent fluid droplet, volumetric high-domed rounded droplet resting firmly on tabletop surface">7. Volumetric Rounded Dome (도톰한 구형 돔 방울)</option>
+          </datalist>
+
+          <!-- Datalist Suggestions for Material / Substance Keywords -->
+          <datalist id="material-suggestions">
+            <option value="smooth liquid foundation cosmetic swatch, velvety skincare makeup foundation smear">⭐ 1. Liquid Foundation (리퀴드 파운데이션)</option>
+            <option value="soothing botanical cream paste cosmetic swatch, completely smooth silky refined skincare cream swatch">⭐ 2. Botanical Cream Paste (진정 보태니컬 크림)</option>
+            <option value="translucent facial melting balm cosmetic swatch, rich golden honey viscous balm">⭐ 3. Translucent Melting Balm (골든 앰버 멜팅 밤/꿀)</option>
+            <option value="dense whipped facial cream cosmetic swatch, rich buttery spatula swirl ridges skincare cream">4. Whipped Cream (휘핑 영양 크림)</option>
+            <option value="dense organic cosmetic clay balm swatch, rich homogeneous spreadable clay paste">5. Clay Balm (고농축 클레이 밤)</option>
+            <option value="translucent hydrating cosmetic jelly serum droplet swatch, viscous fluid gel bubble">6. Gel Serum Droplet (수분 젤 세럼 방울)</option>
+            <option value="optically clear transparent water gel droplet swatch, pure see-through hydrating fluid">7. Water Gel Droplet (쿨링 투명 수분 젤)</option>
+            <option value="dense pressed mineral cosmetic powder cake swatch, compact solid makeup block">8. Pressed Powder Cake (압축 미네랄 파우더)</option>
+            <option value="dense spreadable cosmetic cream paste swatch, flat palette knife smear sweeping to the right">9. Combed Cream Smear (우측 빗살 스미어 크림)</option>
+            <option value="dense dry baked organic clay tablet swatch, brittle mineral cosmetic block">10. Fractured Clay Tablet (균열 점토 정제)</option>
+            <option value="crumbly solid cosmetic pigment bar swatch, dry compact chalk mineral chunk">11. Crumbly Pigment Bar (부스러진 피그먼트 바)</option>
+            <option value="rich buttery cosmetic emulsion swatch, velvety spreadable nourishing lotion">12. Buttery Emulsion (버터리 고영양 로션)</option>
+            <option value="viscous golden cosmetic honey essence swatch, dense glowing flowing nectar">13. Honey Essence (고점도 꿀 에센스)</option>
+            <option value="dense facial exfoliating scrub cream paste swatch, rich spreadable emulsion with fine botanical particles">14. Exfoliating Scrub Paste (식물성 스크럽 페이스트)</option>
+          </datalist>
+
+          <!-- Dynamic Swatch Rows Container -->
+          <div class="cmf-rows-container" id="cmf-rows-container">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Modal: ComfyUI Target & Workflow Deployment Manager -->
+  <div id="target-config-modal" class="modal-overlay" onclick="closeTargetConfigModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>🚀 Deploy Shot to ComfyUI & Settings</h3>
+        <button class="modal-close-btn" onclick="closeTargetConfigModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Section 1: Asset Cloud Source (BunnyCDN) -->
+        <div class="modal-section">
+          <h4>🌐 1. 3D Guide Asset Cloud Source (BunnyCDN)</h4>
+          <p class="modal-desc">3D 가이드 패스(Depth, Normal, Masks)를 로드하는 BunnyCDN 클라우드 주소입니다.</p>
+          <div class="input-row">
+            <input type="text" id="cfg-cdn-url" class="cfg-text-input" value="https://dj-portfolio-teaser.b-cdn.net/Neural_Cosmetic_Swatches/3d_guides" placeholder="https://your-pullzone.b-cdn.net/..." style="flex: 1;">
+            <select id="cfg-asset-source" class="cfg-select" onchange="onAssetSourceChange(this.value)" style="width: 140px;">
+              <option value="cdn">🐰 BunnyCDN</option>
+              <option value="local">💻 Local Server</option>
+            </select>
+            <button class="btn btn-sm btn-primary" onclick="saveCdnSettings()">💾 Save</button>
+          </div>
+          <div class="status-indicator-row">
+            <span class="status-dot green" id="cfg-cdn-status-dot"></span>
+            <span class="status-text" id="cfg-cdn-status-text">🟢 BunnyCDN Connected (CORS Active)</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Target ComfyUI Input Folder -->
+        <div class="modal-section mt-12">
+          <h4>📥 2. ComfyUI Input Destination Path</h4>
+          <p class="modal-desc"><code>Deploy Shot</code> 클릭 시 BunnyCDN에서 다운로드받은 3D 패스(Normal, Depth, Masks)가 저장되는 ComfyUI 입력 경로입니다.</p>
+          <div class="input-row">
+            <input type="text" id="cfg-comfy-input-path" class="cfg-text-input" placeholder="C:\Users\...\AppData\Local\Comfy-Desktop\ComfyUI-Shared\input" style="flex: 1;">
+            <button class="btn btn-sm btn-primary" onclick="saveTargetInputPath()">💾 Save Path</button>
+          </div>
+          <div class="status-indicator-row">
+            <span class="status-dot green" id="cfg-comfy-status-dot"></span>
+            <span class="status-text" id="cfg-comfy-status-text">Checking path status...</span>
+          </div>
+        </div>
+
+        <!-- Section 3: Target Workflow JSON & Prompt Injector -->
+        <div class="modal-section mt-12">
+          <h4>💾 3. ComfyUI Workflow JSON Manager & Prompt Injector</h4>
+          <p class="modal-desc">현재 합성된 프롬프트(SDXL/FLUX/CMF 스와치)를 워크플로우 JSON에 주입하여 새 파일로 내보내며, 3D 패스를 ComfyUI 입력 폴더로 동기화합니다.</p>
+          <div class="input-row">
+            <select id="workflow-base-select" class="cfg-select" style="flex: 1;">
+              <option value="apple_spatial_hybrid_sdxl_flux_ipadapter_master_v3.json" selected>🏆 [Master v3] apple_spatial_hybrid_sdxl_flux_ipadapter_master_v3.json (Regional IP-Adapter + FLUX CMF)</option>
+              <option value="apple_spatial_hybrid_sdxl_flux_lookdev_workflow_master_v2.json">⭐ [Master v2] apple_spatial_hybrid_sdxl_flux_lookdev_workflow_master_v2.json (Global Light 0.7 Master)</option>
+              <option value="apple_spatial_hybrid_sdxl_flux_lookdev_workflow.json">apple_spatial_hybrid_sdxl_flux_lookdev_workflow.json (Production Master v1)</option>
+              <option value="apple_spatial_regional_ipadapter_workflow.json">apple_spatial_regional_ipadapter_workflow.json (1-Stage SDXL IP-Adapter)</option>
+              <option value="apple_spatial_oneshot_regional_workflow.json">apple_spatial_oneshot_regional_workflow.json (SDXL Gold Standard)</option>
+              <option value="apple_spatial_minimal_prompt_no_lora_workflow.json">apple_spatial_minimal_prompt_no_lora_workflow.json (Baseline)</option>
+            </select>
+          </div>
+
+          <div class="input-row mt-8">
+            <input type="text" id="workflow-output-name" class="cfg-text-input" value="custom_injected_lookdev_workflow.json" placeholder="custom_workflow_name.json" style="flex: 1;">
+            <button class="btn btn-sm btn-accent" onclick="injectAndExportWorkflow()">🚀 Deploy & Export Injected JSON</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="btn btn-sm btn-outline" onclick="closeTargetConfigModal()">Close</button>
+        <button class="btn btn-sm btn-accent" onclick="injectAndExportWorkflow()" style="font-weight: 700;">🚀 Deploy & Export Workflow</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Preset Modal -->
+  <div id="save-preset-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>💾 Save Entire LookDev Preset</h3>
+        <button class="btn-close" onclick="closeSavePresetModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">전체 스와치(P0~P6 컬러, 머티리얼, 피니시), 3D 샷 번호, 조명 각도, 프롬프트 설정을 영구 프리셋으로 저장합니다.</p>
+        <div class="modal-section mt-12">
+          <h4>🏷️ Preset Name</h4>
+          <div class="input-row">
+            <input type="text" id="save-preset-name" class="cfg-text-input" placeholder="e.g. Luxury Velvet Terracotta V1" style="flex: 1;">
+          </div>
+        </div>
+        <div class="modal-section mt-12">
+          <h4>📝 Description (Optional)</h4>
+          <div class="input-row">
+            <input type="text" id="save-preset-desc" class="cfg-text-input" placeholder="e.g. Rich dark clay with gold shimmer & satin glow" style="flex: 1;">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-outline" onclick="closeSavePresetModal()">Cancel</button>
+        <button class="btn btn-sm btn-primary" onclick="confirmSavePreset()">💾 Save Preset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Workflow Export Modal -->
+  <div id="dynamic-export-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 600px; background: rgba(18, 20, 24, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+      <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">⚡</span>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #f8fafc;">Generate & Export Dynamic Workflow</h3>
+            <p style="margin: 2px 0 0 0; font-size: 12px; color: #94a3b8;">100% 코드로 즉시 합성되는 ComfyUI 2-Stage 워크플로우를 생성합니다.</p>
+          </div>
+        </div>
+        <button class="btn-close" onclick="closeDynamicExportModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 0;">
+        <!-- Section 1: Target Workflow File Name -->
+        <div class="modal-section">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">
+            📁 Workflow File Name (.json)
+          </label>
+          <div class="input-row" style="display: flex; gap: 8px;">
+            <input type="text" id="dynamic-export-filename" class="cfg-text-input" value="apple_spatial_lookdev_dynamic_v1.json" placeholder="custom_workflow_name.json" style="flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 8px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #38bdf8;">
+          </div>
+          <span style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">저장 경로: <code>comfyui_workflows/</code> 폴더 내에 저장됩니다.</span>
+        </div>
+
+        <!-- Section 2: Real-time Composition Inspection Badges -->
+        <div class="modal-section mt-12" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 8px; padding: 12px;">
+          <div style="font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 8px;">🔍 Active Composition Configuration</div>
+          <div id="dynamic-export-summary-badges" style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <!-- Rendered dynamically by openDynamicExportModal() -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 14px; gap: 8px;">
+        <button class="btn btn-sm btn-outline" onclick="closeDynamicExportModal()">Cancel</button>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-sm btn-secondary" onclick="executeDynamicExport('download')" title="Download JSON to your PC browser downloads">
+            📥 Download JSON
+          </button>
+          <button class="btn btn-sm btn-accent" onclick="executeDynamicExport('save')" style="font-weight: 600;" title="Save file to comfyui_workflows/ and deploy 3D passes">
+            💾 Save & Deploy Assets
+          </button>
+          <button class="btn btn-sm btn-gold" onclick="executeDynamicExport('copy')" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #34d399; font-weight: 700;" title="Copy entire JSON to clipboard to paste directly into ComfyUI canvas">
+            📋 Copy to Clipboard
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast">Prompt copied to clipboard!</div>
+
+  <script src="ntc.js"></script>
+  <script src="app.js?v=16.0"></script>
+</body>
+</html>

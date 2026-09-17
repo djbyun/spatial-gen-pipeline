@@ -42,7 +42,7 @@
           "slot_index": 2
         }
       ],
-      "title": "📦 [1단계] SDXL 기본 모델 로더",
+      "title": "Load Checkpoint",
       "properties": {
         "Node name for S&R": "CheckpointLoaderSimple"
       },
@@ -95,7 +95,7 @@
           "slot_index": 1
         }
       ],
-      "title": "🍏 [2단계] 애플 LoRA (0.95)",
+      "title": "Load LoRA (Model and CLIP)",
       "properties": {
         "Node name for S&R": "LoraLoader"
       },
@@ -129,7 +129,7 @@
           "slot_index": 0
         }
       ],
-      "title": "📐 [3단계] 3D Depth 컨트롤넷",
+      "title": "Load ControlNet Model",
       "properties": {
         "Node name for S&R": "ControlNetLoader"
       },
@@ -166,7 +166,7 @@
           "links": null
         }
       ],
-      "title": "📂 [4단계] 3D Depth (0005/Depth.png)",
+      "title": "Load Image",
       "properties": {
         "Node name for S&R": "LoadImage"
       },
@@ -199,7 +199,7 @@
           "slot_index": 0
         }
       ],
-      "title": "🧭 [5단계] 3D Normal 컨트롤넷",
+      "title": "Load ControlNet Model",
       "properties": {
         "Node name for S&R": "ControlNetLoader"
       },
@@ -236,7 +236,7 @@
           "links": null
         }
       ],
-      "title": "📂 [6단계] 3D Normal (0005/Normal.png)",
+      "title": "Load Image",
       "properties": {
         "Node name for S&R": "LoadImage"
       },
@@ -269,7 +269,7 @@
           "slot_index": 0
         }
       ],
-      "title": "🎨 [7단계] 3D Color ID 컨트롤넷",
+      "title": "Load ControlNet Model",
       "properties": {
         "Node name for S&R": "ControlNetLoader"
       },
@@ -306,7 +306,7 @@
           "links": null
         }
       ],
-      "title": "📂 [8단계] 3D Color ID (0005/Id.png)",
+      "title": "Load Image",
       "properties": {
         "Node name for S&R": "LoadImage"
       },
@@ -346,7 +346,7 @@
           "slot_index": 0
         }
       ],
-      "title": "✨ [9단계] 긍정 프롬프트 (Spatial LookDev)",
+      "title": "CLIP Text Encode (Prompt)",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
@@ -385,7 +385,7 @@
           "slot_index": 0
         }
       ],
-      "title": "🚫 [10단계] 부정 프롬프트 (품질 저하 차단)",
+      "title": "CLIP Text Encode (Prompt)",
       "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
@@ -447,14 +447,14 @@
           "slot_index": 1
         }
       ],
-      "title": "📐 [11단계] Depth 가이드 결합 (강도 0.55)",
+      "title": "Apply ControlNet (Advanced)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
         0.55,
         0.0,
-        0.80
+        0.8
       ]
     },
     {
@@ -511,14 +511,14 @@
           "slot_index": 1
         }
       ],
-      "title": "🧭 [12단계] Normal 가이드 결합 (강도 0.50)",
+      "title": "Apply ControlNet (Advanced)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
-        0.50,
+        0.5,
         0.0,
-        0.70
+        0.7
       ]
     },
     {
@@ -575,14 +575,14 @@
           "slot_index": 1
         }
       ],
-      "title": "🎨 [13단계] Color ID 가이드 결합 (강도 0.40)",
+      "title": "Apply ControlNet (Advanced)",
       "properties": {
         "Node name for S&R": "ControlNetApplyAdvanced"
       },
       "widgets_values": [
-        0.40,
+        0.4,
         0.0,
-        0.60
+        0.6
       ]
     },
     {
@@ -609,7 +609,7 @@
           "slot_index": 0
         }
       ],
-      "title": "✨ [14단계] 캔버스 생성 (1024x1024)",
+      "title": "Empty Latent Image",
       "properties": {
         "Node name for S&R": "EmptyLatentImage"
       },
@@ -665,7 +665,7 @@
           "slot_index": 0
         }
       ],
-      "title": "⚡ [15단계] Triple Spatial 렌더러",
+      "title": "KSampler",
       "properties": {
         "Node name for S&R": "KSampler"
       },
@@ -715,7 +715,7 @@
           "slot_index": 0
         }
       ],
-      "title": "🖼️ [16단계] VAE 디코드",
+      "title": "VAE Decode",
       "properties": {
         "Node name for S&R": "VAEDecode"
       }
@@ -741,7 +741,7 @@
           "link": 23
         }
       ],
-      "title": "💾 [17단계] 최종 Spatial 완성작 저장",
+      "title": "Save Image",
       "properties": {
         "Node name for S&R": "SaveImage"
       },

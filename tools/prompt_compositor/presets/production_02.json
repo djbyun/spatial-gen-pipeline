@@ -1,0 +1,88 @@
+{
+  "id": "production_02",
+  "name": "Production_02",
+  "description": "Classic 6-part skincare lookdev: Terracotta, Pure Cream, Rose Gel, Matcha, Honey, Peach Foundation",
+  "isBuiltin": false,
+  "shot": 17,
+  "globalState": {
+    "sharedStyle": "clean matte studio lookdev, minimalist commercial studio photography",
+    "fluxPrefix": "a photo in apple minimal craft style of",
+    "camera": "top-down flat lay view",
+    "lighting": "crisp directional studio spotlight from top-right at shallow 25-degree angle casting hard crisp drop shadows starting flush from the base with zero gap, zero floating, photorealistic commercial lookdev",
+    "lightingAzimuth": 45,
+    "lightingElevation": 25,
+    "shadowStyle": "auto",
+    "subjectType": "professional luxury skincare cosmetic swatches",
+    "bgDesc": "warm neutral pale luminous off-white porcelain tone, clean matte studio tabletop surface, seamless non-reflective finish, zero glare",
+    "bgMaterial": "clean matte studio tabletop surface",
+    "bgFinish": "seamless non-reflective finish, zero glare",
+    "bgColor": "#f4f2ee",
+    "bgColorDesc": "warm neutral pale luminous off-white porcelain tone",
+    "negative": "floating, hovering, levitating, airborne, detached shadow, gap beneath object, light bleed at contact base, sticker cutout, soap, soap bar, soapy, rubber, silicone, latex, polymer, wax, solid plastic, plastic toy, metal, metallic, chrome, gadget, electronics, pimples, blemishes, stray drops, splatters, scattered droplets, side view, angled perspective, blurry, noisy, low quality, distorted, bad reflections, overexposed",
+    "isP0CustomPrompt": false,
+    "p0CustomPrompt": ""
+  },
+  "activeSwatches": [
+    {
+      "imageSrc": "",
+      "color": "#94887a",
+      "colorDesc": "warm pale muted stonewall terracotta beige ultra-low saturation, highly desaturated pale muted, washed-out subtle chroma",
+      "material": "optically clear transparent water gel droplet swatch, pure see-through hydrating fluid",
+      "finish": "dewy luminous sheen, hydrated moisture glow, radiant luster with micro reflections, clean rounded cosmetic luxury swatch",
+      "volume": "viscous translucent fluid droplet, volumetric high-domed rounded droplet resting firmly on tabletop surface",
+      "isCustomPrompt": false,
+      "customPrompt": "swiped cosmetic cream smear with thin concave center and thick raised outer ridges resting firmly on tabletop surface, soft pastel baby sky blue cyan tone, ((densely speckled with high-contrast tiny dark green and golden botanical scrub particles and crushed exfoliating seed granules:1.35)) visibly embedded throughout the surface, creamy cosmetic scrub texture, clean cosmetic luxury swatch"
+    },
+    {
+      "imageSrc": "",
+      "color": "#add1f5",
+      "colorDesc": "cool bright vivid perano cerulean azure blue tone high saturation, rich vibrant pure chroma",
+      "material": "translucent facial melting balm cosmetic swatch, rich golden honey viscous balm",
+      "finish": "glowing warm radiant luster, dewy glistening melted balm skincare swatch, glossy reflections",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface",
+      "isCustomPrompt": false
+    },
+    {
+      "imageSrc": "",
+      "color": "#dae6b3",
+      "colorDesc": "warm soft light hampton ochre yellow gold tone muted saturation, subtle subdued chroma",
+      "material": "soothing botanical cream paste cosmetic swatch, completely smooth silky refined skincare cream swatch",
+      "finish": "soft organic matte finish, flawless seamless texture, clean rounded cosmetic luxury swatch, no grains",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface",
+      "isCustomPrompt": false
+    },
+    {
+      "imageSrc": "",
+      "color": "#dae3ab",
+      "colorDesc": "warm soft light sapling ochre yellow gold tone muted saturation, subtle subdued chroma",
+      "material": "smooth soothing botanical cream paste, fine herbal suspension",
+      "finish": "smooth silky refined texture, soft organic matte finish, no grains",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface",
+      "isCustomPrompt": false
+    },
+    {
+      "imageSrc": "",
+      "color": "#dcc4a7",
+      "colorDesc": "warm soft light cameo terracotta coral tone muted saturation, subtle subdued chroma",
+      "material": "smooth liquid foundation cosmetic swatch, velvety skincare makeup foundation smear",
+      "finish": "soft velvety matte powdery makeup foundation swatch smear, flawless cosmetic finish, clean cosmetic luxury swatch",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface",
+      "isCustomPrompt": false
+    },
+    {
+      "imageSrc": "",
+      "color": "#d8ae64",
+      "colorDesc": "warm natural balanced tacha amber sand tone soft muted saturation, subtle subdued chroma",
+      "material": "rich buttery cosmetic emulsion swatch, velvety spreadable nourishing lotion",
+      "finish": "linear combed spatula rake grooves sweeping horizontally to the right, parallel scrape ridges, soft satin matte finish",
+      "volume": "swiped cosmetic cream smear with thin smooth concave center and thick raised accumulated outer ridges resting firmly on tabletop surface",
+      "isCustomPrompt": false
+    }
+  ],
+  "relightState": {
+    "lightAzimuth": 45,
+    "lightElevation": 25,
+    "presetIdx": 0,
+    "colorMode": "swatch"
+  }
+}

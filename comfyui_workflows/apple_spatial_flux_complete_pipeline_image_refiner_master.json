@@ -1,0 +1,1316 @@
+{
+  "last_node_id": 27,
+  "last_link_id": 39,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        80,
+        100
+      ],
+      "size": [
+        320,
+        100
+      ],
+      "title": "FLUX UNET Loader (flux1-dev-fp8.safetensors)",
+      "widgets_values": [
+        "flux1-dev-fp8.safetensors",
+        "fp8_e4m3fn"
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "DualCLIPLoader",
+      "pos": [
+        80,
+        240
+      ],
+      "size": [
+        320,
+        120
+      ],
+      "title": "FLUX Dual CLIP (T5XXL + CLIP-L)",
+      "widgets_values": [
+        "t5xxl_fp8_e4m3fn.safetensors",
+        "clip_l.safetensors",
+        "flux"
+      ],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "VAELoader",
+      "pos": [
+        80,
+        400
+      ],
+      "size": [
+        320,
+        90
+      ],
+      "title": "FLUX VAE Loader (ae.safetensors)",
+      "widgets_values": [
+        "ae.safetensors"
+      ],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        440,
+        100
+      ],
+      "size": [
+        320,
+        100
+      ],
+      "title": "🍎 Apple Minimal Craft FLUX LoRA (0.60)",
+      "widgets_values": [
+        "apple_minimal_craft_flux_v1.safetensors",
+        0.6
+      ],
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            12,
+            13,
+            14
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [
+        440,
+        240
+      ],
+      "size": [
+        400,
+        140
+      ],
+      "title": "FLUX Shared Negative Prompt",
+      "widgets_values": [
+        "petals, flower, leaf, plant, botanical, fibrous grain, radial venation, dry paper, thin shell, wood texture, blur, noise, grain, low quality, artifacts, distorted geometry"
+      ],
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            15,
+            16,
+            17
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ControlNetLoader",
+      "pos": [
+        440,
+        420
+      ],
+      "size": [
+        320,
+        60
+      ],
+      "title": "🎮 FLUX ControlNet: Depth",
+      "widgets_values": [
+        "flux1-dev-controlnet-depth.safetensors"
+      ],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "LoadImage",
+      "pos": [
+        880,
+        100
+      ],
+      "size": [
+        280,
+        260
+      ],
+      "title": "3D Guide: Depth Pass (0002)",
+      "widgets_values": [
+        "0002/Depth.png",
+        "image"
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            19
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "LoadImage",
+      "pos": [
+        880,
+        400
+      ],
+      "size": [
+        280,
+        260
+      ],
+      "title": "3D Guide: Color Pass (0002)",
+      "widgets_values": [
+        "0002/Color.png",
+        "image"
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            20
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "VAEEncode",
+      "pos": [
+        1200,
+        400
+      ],
+      "size": [
+        280,
+        100
+      ],
+      "title": "Color Pass VAE Encode (Initial Latent)",
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 20
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1200,
+        100
+      ],
+      "size": [
+        440,
+        180
+      ],
+      "title": "1️⃣ 1차 생성 프롬프트 (3D 룩뎁 베이스)",
+      "widgets_values": [
+        "a photo in apple minimal craft style of, minimalist luxury cosmetic skincare swatches, thick viscous glossy terracotta balm and snow white cream with high surface tension, convex meniscus domes, wet reflections, luminous internal caustics, soft contact ambient occlusion shadows on clean matte studio tabletop surface, ultra-clean commercial lookdev, 8k resolution"
+      ],
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        1680,
+        100
+      ],
+      "size": [
+        360,
+        260
+      ],
+      "title": "Apply FLUX Depth ControlNet (0.70)",
+      "widgets_values": [
+        0.7,
+        0.0,
+        0.8
+      ],
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 22
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 15
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 18
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 19
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            23
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            24
+          ],
+          "slot_index": 1
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "type": "FluxGuidance",
+      "pos": [
+        1680,
+        400
+      ],
+      "size": [
+        220,
+        80
+      ],
+      "title": "FLUX Guidance Scale (2.8)",
+      "widgets_values": [
+        2.8
+      ],
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "links": [
+            25
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "type": "KSampler",
+      "pos": [
+        2080,
+        100
+      ],
+      "size": [
+        330,
+        350
+      ],
+      "title": "1️⃣ 1차 3D 생성 KSampler (Denoise 0.88)",
+      "widgets_values": [
+        7,
+        "fixed",
+        20,
+        1.0,
+        "euler",
+        "simple",
+        0.88
+      ],
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 12
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 25
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 24
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            26
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "type": "VAEDecode",
+      "pos": [
+        2450,
+        100
+      ],
+      "size": [
+        240,
+        100
+      ],
+      "title": "1차 VAE Decode ➔ IMAGE 1",
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 26
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            27,
+            28
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "type": "PreviewImage",
+      "pos": [
+        2450,
+        240
+      ],
+      "size": [
+        360,
+        360
+      ],
+      "title": "👁️ [1차 3D 완성본] 실시간 확인",
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 27
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "type": "VAEEncode",
+      "pos": [
+        2870,
+        400
+      ],
+      "size": [
+        280,
+        100
+      ],
+      "title": "2단계 VAE Encode (IMAGE 1 입력)",
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 28
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            29
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2870,
+        100
+      ],
+      "size": [
+        440,
+        200
+      ],
+      "title": "2️⃣ 2차 수정 프롬프트 (유리알 광택 & 커스틱스)",
+      "widgets_values": [
+        "a photo in apple minimal craft style of, extreme micro-detail cosmetic lookdev, ultra-glossy glass wet reflections, crystal-clear luminous internal caustics, high surface tension fluid meniscus edge tension, pristine soft studio grazing lighting, smooth matte tabletop, 8k resolution"
+      ],
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "type": "FluxGuidance",
+      "pos": [
+        3350,
+        100
+      ],
+      "size": [
+        220,
+        80
+      ],
+      "title": "FLUX Guidance Scale (2.8)",
+      "widgets_values": [
+        2.8
+      ],
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "links": [
+            31
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "type": "KSampler",
+      "pos": [
+        3350,
+        220
+      ],
+      "size": [
+        330,
+        350
+      ],
+      "title": "2️⃣ 2차 KSampler (Denoise 0.25)",
+      "widgets_values": [
+        8,
+        "fixed",
+        20,
+        1.0,
+        "euler",
+        "simple",
+        0.25
+      ],
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 13
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 31
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 16
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            32
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "type": "VAEDecode",
+      "pos": [
+        3720,
+        220
+      ],
+      "size": [
+        240,
+        100
+      ],
+      "title": "2차 VAE Decode ➔ IMAGE 2",
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 32
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            33,
+            34
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "type": "PreviewImage",
+      "pos": [
+        3720,
+        360
+      ],
+      "size": [
+        360,
+        360
+      ],
+      "title": "👁️ [2차 수정본] 실시간 확인",
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 33
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "type": "VAEEncode",
+      "pos": [
+        4140,
+        400
+      ],
+      "size": [
+        280,
+        100
+      ],
+      "title": "3단계 VAE Encode (IMAGE 2 입력)",
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 34
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            35
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "type": "CLIPTextEncode",
+      "pos": [
+        4140,
+        100
+      ],
+      "size": [
+        440,
+        200
+      ],
+      "title": "3️⃣ 3차 수정 프롬프트 (미세 텍스처 & 림라이트)",
+      "widgets_values": [
+        "a photo in apple minimal craft style of, commercial master lookdev, microscopic fluid air bubbles, crisp studio rim light highlights, perfect contact ambient occlusion shadow, high-end Apple product lookdev photography, 8k resolution"
+      ],
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            36
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "type": "FluxGuidance",
+      "pos": [
+        4620,
+        100
+      ],
+      "size": [
+        220,
+        80
+      ],
+      "title": "FLUX Guidance Scale (2.8)",
+      "widgets_values": [
+        2.8
+      ],
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 36
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "links": [
+            37
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "type": "KSampler",
+      "pos": [
+        4620,
+        220
+      ],
+      "size": [
+        330,
+        350
+      ],
+      "title": "3️⃣ 3차 KSampler (Denoise 0.18)",
+      "widgets_values": [
+        9,
+        "fixed",
+        20,
+        1.0,
+        "euler",
+        "simple",
+        0.18
+      ],
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 14
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 37
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 17
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 35
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            38
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "type": "VAEDecode",
+      "pos": [
+        4990,
+        220
+      ],
+      "size": [
+        240,
+        100
+      ],
+      "title": "3차 VAE Decode ➔ IMAGE 3",
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 38
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            39
+          ],
+          "slot_index": 0
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "type": "SaveImage",
+      "pos": [
+        5270,
+        220
+      ],
+      "size": [
+        380,
+        420
+      ],
+      "title": "👑 Final 3-Stage Masterpiece (Auto Saved)",
+      "widgets_values": [
+        "Apple_Spatial_FLUX_Full_Pipeline_0002_Master"
+      ],
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 39
+        }
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      4,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      5,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      2,
+      0,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      2,
+      0,
+      17,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      2,
+      0,
+      23,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      3,
+      0,
+      11,
+      4,
+      "VAE"
+    ],
+    [
+      7,
+      3,
+      0,
+      9,
+      1,
+      "VAE"
+    ],
+    [
+      8,
+      3,
+      0,
+      14,
+      1,
+      "VAE"
+    ],
+    [
+      9,
+      3,
+      0,
+      16,
+      1,
+      "VAE"
+    ],
+    [
+      10,
+      3,
+      0,
+      20,
+      1,
+      "VAE"
+    ],
+    [
+      11,
+      3,
+      0,
+      22,
+      1,
+      "VAE"
+    ],
+    [
+      12,
+      4,
+      0,
+      13,
+      0,
+      "MODEL"
+    ],
+    [
+      13,
+      4,
+      0,
+      19,
+      0,
+      "MODEL"
+    ],
+    [
+      14,
+      4,
+      0,
+      25,
+      0,
+      "MODEL"
+    ],
+    [
+      15,
+      5,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      16,
+      5,
+      0,
+      19,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      17,
+      5,
+      0,
+      25,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      18,
+      6,
+      0,
+      11,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      19,
+      7,
+      0,
+      11,
+      3,
+      "IMAGE"
+    ],
+    [
+      20,
+      8,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      21,
+      9,
+      0,
+      13,
+      3,
+      "LATENT"
+    ],
+    [
+      22,
+      10,
+      0,
+      11,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      11,
+      0,
+      12,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      24,
+      11,
+      1,
+      13,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      25,
+      12,
+      0,
+      13,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      26,
+      13,
+      0,
+      14,
+      0,
+      "LATENT"
+    ],
+    [
+      27,
+      14,
+      0,
+      15,
+      0,
+      "IMAGE"
+    ],
+    [
+      28,
+      14,
+      0,
+      16,
+      0,
+      "IMAGE"
+    ],
+    [
+      29,
+      16,
+      0,
+      19,
+      3,
+      "LATENT"
+    ],
+    [
+      30,
+      17,
+      0,
+      18,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      31,
+      18,
+      0,
+      19,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      32,
+      19,
+      0,
+      20,
+      0,
+      "LATENT"
+    ],
+    [
+      33,
+      20,
+      0,
+      21,
+      0,
+      "IMAGE"
+    ],
+    [
+      34,
+      20,
+      0,
+      22,
+      0,
+      "IMAGE"
+    ],
+    [
+      35,
+      22,
+      0,
+      25,
+      3,
+      "LATENT"
+    ],
+    [
+      36,
+      23,
+      0,
+      24,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      37,
+      24,
+      0,
+      25,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      38,
+      25,
+      0,
+      26,
+      0,
+      "LATENT"
+    ],
+    [
+      39,
+      26,
+      0,
+      27,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "🌐 1. STAGE 1 : 3D DEPTH CONTROLNET + COLOR LATENT GENERATION (IMAGE 1 생성)",
+      "bounding": [
+        840,
+        40,
+        1980,
+        800
+      ],
+      "color": "#0284c7",
+      "font_size": 24
+    },
+    {
+      "title": "✨ 2. STAGE 2 : CMF GLASS REFLECTION REFINER (IMAGE 1 ➔ IMAGE 2)",
+      "bounding": [
+        2840,
+        40,
+        1260,
+        800
+      ],
+      "color": "#8b5cf6",
+      "font_size": 24
+    },
+    {
+      "title": "💎 3. STAGE 3 : MICRO-TEXTURE & LIGHTING REFINER (IMAGE 2 ➔ IMAGE 3)",
+      "bounding": [
+        4120,
+        40,
+        1560,
+        800
+      ],
+      "color": "#10b981",
+      "font_size": 24
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        20,
+        20
+      ]
+    }
+  },
+  "version": 0.4
+}
